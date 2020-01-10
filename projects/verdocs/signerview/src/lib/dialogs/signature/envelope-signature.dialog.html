@@ -1,0 +1,45 @@
+<div #signatureBody class="signature__container" (window:resize)="resizeCanvas();resizeText()">
+  <div class="signature__header" fxLayout="row" fxLayoutAlign="space-between center">
+    Create Your {{signatureMode}}
+  </div>
+  <div class="signature__body">
+    <div class="signature__input-group">
+      <mat-form-field class="signature__input__full-name">
+        <input [disabled]="!canUpdateName()" matInput #fullNameInput class="signature__input" [placeholder]="placeholder" [(ngModel)]="full_name" (input)="resizeText();">
+        <mat-hint class="signature__input-helper">As shown on driver's license or govt. ID card.</mat-hint>
+      </mat-form-field>
+    </div>
+    <mat-tab-group #signatureTabGroup class="signature__body__tab-group" [(selectedIndex)]="tabIndex">
+      <mat-tab label="Type" class="tab-body__type" md-stretch-tabs="always">
+        <div class="signature__border">
+          <div #signatureBlock class="signature__block">
+            <div #signatureText class="signature__text font-3">{{full_name}}</div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Draw" md-stretch-tabs="always" (click)="resizeCanvas()">
+        <div #signatureGuide class="signature__draw__guide">
+          <button class="signature__button__clear" mat-button (click)="clearPad()">
+            <mat-icon>cancel</mat-icon>
+          </button>
+          <div class="signature__draw__wrapper">
+            <canvas class="signature__draw__pad" [ngClass]="{signature__draw__pad__blue: color==='#0054FD', signature__draw__pad__red: color==='#FF0000'}" #signatureCanvas (mousedown)="draw($event)" (touchstart)="draw($event)" (mousemove)="recordPoints($event)" (touchmove)="recordPoints($event)" (mouseleave)="stopDraw()" (touchend)="stopDraw()" (mouseup)="stopDraw()"></canvas>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <div class="signature__disclaimer">
+    By clicking Adopt, I agree that the signature will be the electronic representation of my signature for all purposes when
+    I (or my agent) use them on documents, including legally binding contracts &mdash; just the same as a pen-and-paper signature
+    or initial.
+  </div>
+  <div class="signature__action">
+    <button mat-button class="signature__close" (click)="close()">
+      cancel
+    </button>
+    <button mat-raised-button [disabled]=adoptedAndSigned class="signature__sign-button" (click)="adoptAndSign()">
+      adopt & sign
+    </button>
+  </div>
+</div>

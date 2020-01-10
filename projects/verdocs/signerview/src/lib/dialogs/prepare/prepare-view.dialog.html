@@ -1,0 +1,80 @@
+<div id="template-invite">
+        <div class="invite__header" fxLayout="row" fxLayoutAlign="space-between center">
+          <button #close mat-button class="invite__close" fxFlex="42px" fxHide.gt-xs fxShow.xs (click)="closeOption()">
+            <mat-icon>close</mat-icon>
+          </button>
+          <div class="invite__title" fxFlex>{{headerTitle}}</div>
+          <div class="invite__send" fxFlex="35px" (click)="submitInvite()" fxLayout="row" fxLayoutAlign="center center" fxHide.gt-xs
+            fxShow.xs>
+            OK
+          </div>
+        </div>
+        <div class="invite__body">
+          <div class="message__container" *ngIf="message != ''">
+            <div class="message__content">{{message}}</div>
+          </div>
+          <div *ngFor="let role of roles; let i = index; trackBy: roleTracking;">
+            <div class="role__container" fxLayout="row" fxLayoutAlign="space-between center" *ngIf="!(role.type === 'preparer')">
+              <div class="role__sequence" fxFlex="24px">{{role?.sequence}}</div>
+              <div class="role__wrapper" fxFlex>
+                <div class="role__item__title">{{role.type}}
+                  <span *ngIf="role.type !== 'preparer'">({{role.role_name}})</span>
+                </div>
+                <mat-form-field class="role__item__input__container--full-width">
+                  <input matInput class="role__item__input" [(ngModel)]="role.full_name" dividerColor="#1FA2FF" placeholder="Name" required [disabled]="!role.ifUnknown">
+                </mat-form-field>
+                <mat-form-field class="role__item__input__container--full-width">
+                  <input matInput class="role__item__input" type="email" [(ngModel)]="role.email" placeholder="Email" required [disabled]="!role.ifUnknown" [email]="true" [pattern]="emailValidator">
+                  <mat-error>Please enter a valid email.</mat-error>
+                </mat-form-field>
+                <div class="role__item__type">{{role.type}}
+                  <span>
+                    <mat-icon class="role__item__check">check</mat-icon>
+                  </span>
+                </div>
+                <div class="role__item__option" [matMenuTriggerFor]="options" *ngIf="role.ifUnknown">
+                  <mat-icon class="role__item__option__button">menu</mat-icon>
+                </div>
+                <mat-menu #options>
+                  <div class="role__item__option__menu__item" mat-menu-item (click)="canDelegate(i); openOption(i);">Can Delegate</div>
+                  <div class="role__item__option__menu__item" mat-menu-item (click)="addMessage(i); openOption(i);">Add Message</div>
+                </mat-menu>
+                <div class="role__item__delegate" *ngIf="role.delegator">
+                  <div class="delegate__header" fxLayout="row" fxLayoutAlign="space-between center">
+                    <div class="delegate__space" fxFlex="42px"></div>
+                    <div class="delegate__title" fxFlex>can delegate</div>
+                    <button mat-button class="item__close" fxFlex="42px" (click)="canDelegate(i)">
+                      <span class="close__stroke-1"></span>
+                      <span class="close__stroke-2"></span>
+                    </button>
+                  </div>
+                </div>
+                <div class="role__item__message" *ngIf="role.message !== null">
+                  <div class="message__header" fxLayout="row" fxLayoutAlign="space-between center">
+                    <div class="message__toggle" fxFlex="42px" (click)="toggleMessage(i)" fxLayout="row" fxLayoutAlign="center center">
+                      <img class="invite__send__image" src="../../assets/msg.svg" alt="">
+                    </div>
+                    <div class="message__title" fxFlex>
+                      Message
+                    </div>
+                    <button mat-button class="item__close" fxFlex="42px" (click)="removeMessage(i)">
+                      <span class="close__stroke-1"></span>
+                      <span class="close__stroke-2"></span>
+                    </button>
+                  </div>
+                </div>
+                <div class="message__body" *ngIf="isMsgOpen(i)">
+                  <mat-form-field class="message__textarea__container--full-width">
+                    <textarea class="message__textarea" matInput placeholder="Message" [(ngModel)]="role.message"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="invite__footer" fxHide.xs>
+          <div class="invite__button-wrapper">
+            <button mat-button class="invite__button" (click)="submitInvite()">Continue</button>
+          </div>
+        </div>
+      </div>

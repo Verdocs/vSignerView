@@ -1,0 +1,300 @@
+@import '../../../../../global.scss';
+
+svg {
+  font-size: 30px;
+}
+
+[class^="font-"],
+[class*=" font-"] {
+  margin: 0 auto;
+}
+
+.font-1 {
+  font-family: 'Parisenne', cursive;
+}
+
+.font-2 {
+  font-family: 'Homemade Apple', cursive;
+}
+
+.font-3 {
+  font-family: 'Dancing Script', cursive;
+}
+
+.signature__text {
+  display: table;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/********************
+ * Material Styling *
+ *******************/
+
+.signature__body__tab-group {
+  ::ng-deep .mat-tab-label-container {
+    padding: 0;
+  }
+
+  ::ng-deep .mat-tab-label {
+    min-width: 72px;
+  }
+
+  ::ng-deep .mat-tab-body.mat-tab-body-active {
+    min-height: 90px;
+    background-color: #FFF;
+    overflow: hidden;
+    border: none;
+    padding: 0;
+  }
+
+  ::ng-deep .mat-tab-body-content {
+    overflow: hidden;
+  }
+
+  ::ng-deep .mat-tab-body-wrapper {
+    background-color: #e8e8e8;
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+
+  //   ::ng-deep .mat-tab-body {
+  //     opacity: 0;
+  //   }
+
+  //   ::ng-deep .mat-tab-body-active {
+  //     opacity: 1;
+  //   }
+}
+
+[class*="signature__input__"],
+[class^=" signature__input__"] {
+  padding: 5px;
+
+  ::ng-deep .mat-input-placeholder {
+    color: $font-blue;
+  }
+
+  ::ng-deep .mat-input-underline {
+    border-color: #B2B2B2;
+  }
+}
+
+
+/*********************
+ * Component Styling *
+ ********************/
+
+::ng-deep .signature {
+
+  &__dialog {
+    max-width: 345px;
+    width: calc(100% - 16px);
+  }
+
+  &__header {
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    line-height: 28px;
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  &__title {
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  &__body {
+    margin-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  &__input {
+    line-height: 28px !important;
+
+    &__full-name {
+      width: 100%;
+      max-width: 305px;
+      margin-right: 20px;
+    }
+
+    &__initial {
+      width: 100%;
+      max-width: 222px;
+    }
+
+    &-helper {
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.37);
+    }
+  }
+
+  &__agreement {
+    padding-top: 12px;
+    width: 100%;
+    font-size: 12px;
+    font-weight: 300;
+    text-align: center;
+    color: #60686D;
+  }
+
+  &__border {
+    border: 1px solid rgba(0, 0, 0, 0.12);
+  }
+
+  &__block {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  &__body__bottom {
+    padding: 20px 5px;
+  }
+
+  &__disclosure {
+    font-size: 12px;
+    color: #213d59;
+  }
+
+  &__disclaimer {
+    padding: 8px 20px;
+    font-size: 12px;
+    line-height: 14px;
+    color: rgba(0, 0, 0, .54);
+  }
+
+  &__action {
+    padding: 8px;
+    text-align: right;
+  }
+
+  &__sign-button {
+    background-color: $button-blue;
+    color: #FFF;
+    text-transform: uppercase;
+  }
+
+  &__close {
+    position: relative;
+    background-color: transparent;
+    text-transform: uppercase;
+    color: $font-blue;
+  }
+}
+
+.signature__button {
+  &__wrapper {
+    padding-top: 7.5px;
+    padding-bottom: 7.5px;
+    text-align: center;
+    width: calc(100% - 10px);
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+
+  &__clear {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    padding-left: 0;
+    padding-right: 0;
+    min-width: 48px;
+    height: 48px;
+    background-color: transparent;
+    border-radius: 50%;
+    z-index: 9999;
+  }
+}
+
+.signature__draw {
+  &__guide {
+    position: relative;
+    border: 1px solid #797979;
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    border-image: repeating-linear-gradient(90deg,
+        transparent,
+        transparent 5px,
+        #797979 5px,
+        #797979 15px) 1;
+  }
+
+  &__wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 1px solid #002f66;
+  }
+
+  &__pad {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 305px;
+    height: 80px;
+  }
+}
+
+// 286 68
+.signature__feather {
+  margin-bottom: 18px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &__group {
+    position: absolute;
+    top: 54px;
+    right: -23px;
+    width: 28px;
+  }
+}
+
+::ng-deep .signature__draw__pad {
+  &:hover {
+    cursor: url(/assets/feather-black.svg) 0 34, auto;
+  }
+
+  &__blue:hover {
+    cursor: url(/assets/feather-blue.svg) 0 34, auto;
+  }
+
+  &__red:hover {
+    cursor: url(/assets/feather-red.svg) 0 34, auto;
+  }
+}
+
+.signature__consent {
+  &__checkbox {
+    font-size: 12px;
+    color: #000;
+
+    .mat-checkbox-frame ::ng-deep {
+      border-color: #979797;
+    }
+
+    &.mat-checkbox ::ng-deep {
+      .mat-checkbox-background {
+        background-color: #FFF;
+        border: 1px solid #979797;
+      }
+    }
+
+    &.mat-checkbox-checked ::ng-deep {
+      .mat-checkbox-background {
+        background-color: #213d59;
+        border: none;
+      }
+    }
+  }
+}
+
+::ng-deep .mat-dialog {
+  &-container {
+    max-width: 345px;
+  }
+}

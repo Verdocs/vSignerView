@@ -1,0 +1,37 @@
+<div class="delegate__container">
+  <div class="delegate__header" fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="header__title">Delegate To</div>
+    <button mat-icon-button class="delegate__close" type="button" fxFlex="40px" matDialogClose>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="delegate__body">
+    <div class="role__container" fxLayout="row" fxLayoutAlign="space-between center">
+      <div class="role__wrapper" fxFlex>
+        <mat-form-field class="role__item__input__container--full-width">
+          <input matInput class="role__item__input" [(ngModel)]="role.full_name" dividerColor="#1FA2FF"
+            placeholder="Full Name" required>
+        </mat-form-field>
+        <mat-form-field class="role__item__input__container--full-width">
+          <input matInput class="role__item__input" [(ngModel)]="role.email" type="email" placeholder="Email"
+            [pattern]="this.emailValidator" email required>
+          <mat-error>Please enter a valid email.</mat-error>
+        </mat-form-field>
+        <mat-form-field class="role__item__input__container--full-width" *ngIf="role?.message !== undefined">
+          <textarea class="role__item__input" matInput placeholder="Message" [(ngModel)]="role.message"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="delegate__footer">
+    <div class="delegate__left-action">
+      <div class="delegate__message-button" (click)="toggleMessage()" [ngClass]="{on: role.message !== undefined}">
+        <mat-icon matTooltip="{{role.message !== undefined ? 'Remove message' : 'Add message'}}">insert_comment</mat-icon>
+      </div>
+    </div>
+    <div class="delegate__right-action">
+      <button class="delegate__submit-button" mat-button (click)="submitDelegate()"
+        [disabled]="!role.full_name || !role.email">Submit</button>
+    </div>
+  </div>
+</div>

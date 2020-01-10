@@ -1,0 +1,8 @@
+<div class="error-dialog__container">
+  <div class="error-dialog__items" *ngFor="let error of errors; let i = index"  (mousedown)="jumpToField(i)">
+    <div class="error-dialog__icon-container">
+      <mat-icon>warning</mat-icon>
+    </div>
+    <div class="error-dialog__message">{{error.message}}</div>
+  </div>
+</div>

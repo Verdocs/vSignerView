@@ -124,6 +124,41 @@
           }
         }
       }
+    },
+    "@verdocs/signerview": {
+      "projectType": "library",
+      "root": "projects/verdocs/signerview",
+      "sourceRoot": "projects/verdocs/signerview/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/verdocs/signerview/tsconfig.lib.json",
+            "project": "projects/verdocs/signerview/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/verdocs/signerview/src/test.ts",
+            "tsConfig": "projects/verdocs/signerview/tsconfig.spec.json",
+            "karmaConfig": "projects/verdocs/signerview/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/verdocs/signerview/tsconfig.lib.json",
+              "projects/verdocs/signerview/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }},
   "defaultProject": "signerview"
 }

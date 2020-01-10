@@ -1,0 +1,303 @@
+.envelope {
+
+  &__items {
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
+
+  &__item{
+    position: absolute;
+    transform-origin: bottom left;
+    opacity: 1;
+    &.prepared {
+      background-color: transparent !important;
+    }
+
+    &.notSelected {
+      opacity: .5;
+    }
+
+    &.radio {
+      border-radius: 50%;
+    }
+
+    &.inactive {
+      opacity: .5;
+      &:hover {
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  &__signature, &__initial, &__textbox, &__checkbox, &__timestamp, &__date, &__attachment, &__payment, &__radio_button, &__dropdown {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    font-family: Arial, sans-serif;
+
+    input, button {
+      transform-origin: 0 0;
+      border: none;
+      background-color: rgba(225, 255, 255, .5);
+    }
+
+    input, textarea {
+      -webkit-appearance: none;
+      border-radius: 0;
+    }
+
+    input {
+      float: left;
+      font-family: Arial, sans-serif;
+    }
+
+    textarea {
+      resize: none;
+      border: none;
+      font-family: Arial, sans-serif;
+      padding-top: 7px;
+      overflow: hidden;
+    }
+
+    button.envelope__field--hide {
+      display: none;
+    }
+
+    button {
+      color: rgba(0, 0, 0, .87);
+      font-weight: 500;
+    }
+
+    select {
+      position: absolute;
+      font-family: Arial, sans-serif;
+      background:
+        linear-gradient(55deg, transparent 50%, #333 50%),
+        linear-gradient(125deg, #333 50%, transparent 50%),
+        linear-gradient(to right, transparent, transparent);
+      background-position:
+        calc(100% - 7px) 4px,
+        calc(100% - 3px) 4px,
+        100% 0;
+      background-size:
+        5px 5px,
+        5px 5px,
+        2.5em 2.5em;
+      background-repeat: no-repeat;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      -ms-appearance: none;
+      -o-appearance: none;
+        appearance: none;
+    }
+
+    &-frame {
+      width: 100%;
+      height: 100%;
+      background-size: contain;
+      text-align: left;
+
+      img {
+        position: absolute;
+        height: auto;
+        width: 100%;
+      }
+    }
+
+    &.focused {
+      animation: pulse .75s 2;
+    }
+  }
+
+  &__attachment {
+    button {
+      background-color: transparent;
+    }
+  }
+  &__checkbox {
+    input {
+      opacity: 0;
+    }
+
+    input[type=checkbox]:checked + label{
+      cursor: pointer;
+      background: url('/assets/check.png');
+      background-position: 0px 4px;
+      background-size: 71% 72%;
+      background-repeat: no-repeat;
+      background-color: transparent !important;
+      border: none !important;
+    }
+
+    input[type=checkbox] + label.prepared {
+      visibility: hidden;
+    }
+  }
+
+  &__radio_button {
+    border-radius: 50%;
+    input {
+      opacity: 0;
+    }
+    input[type=radio]:checked + label {
+      background: url('/assets/radio-on.png');
+      background-position: 0px 0px;
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      background-color: transparent !important;
+      border: none !important;
+      border-radius: 50%;
+    }
+    input[type=radio] + label {
+      background: url('/assets/radio-off.png');
+      background-position: 0px 0px;
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      background-color: transparent !important;
+      border: none !important;
+      border-radius: 50%;
+    }
+
+    input[type=radio] + label.prepared {
+      visibility: hidden;
+    }
+  }
+
+  &__signature, &__initial {
+    button {
+      font-size: 11px;
+    }
+  }
+  &__counter {
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    padding: 2px 4px;
+    right: 0;
+    bottom: -16px;
+    font-size: 10px;
+    color: rgba(0, 0, 0, .54);
+    background-color: rgba(255, 255, 255, .75);
+    transition: opacity ease-in-out 250ms;
+
+    &.show {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+  &__error {
+    padding-left: 4px;
+    padding-right: 4px;
+    position: absolute;
+    top: 1px;
+    right: -2px;
+    height: 20px;
+    line-height: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    color: #cc0000;
+
+    .mat-icon {
+      height: 16px;
+      width: 16px;
+      &.material-icons {
+        font-size: 16px;
+      }
+    }
+
+    &-message {
+      position: absolute;
+      padding-right: 8px;
+      padding-left: 8px;
+      visibility: hidden;
+      opacity: 0;
+      bottom: 0;
+      left: 0;
+      height: 0;
+      z-index: 30;
+      transform-origin: bottom left;
+
+      &.show {
+        height: 14px;
+        bottom: -16px;
+        font-size: 11px;
+        line-height: 14px;
+        background-color: #FAFAFA;
+        color: #cc0000;
+        visibility: visible;
+        opacity: 1;
+        &.email {
+          width: 150px;
+        }
+        &.phone {
+          width: 200px;
+        }
+        &.required {
+          width: 282px;
+        }
+
+      }
+    }
+  }
+  &__clear {
+    position: relative;
+    float: right;
+    left: 20px;
+    bottom: 50%;
+    transform: translateY(-50%);
+    &-button {
+      min-width: 20px;
+      min-height: 20px;
+      padding: 0px;
+      width: 24px;
+      height: 24px;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    &-value {
+      padding-left: 4px;
+      padding-right: 4px;
+      position: absolute;
+      top: 1px;
+      right: -1px;
+      height: 20px;
+      line-height: 20px;
+      font-size: 12px;
+      color: rgba(0, 0, 0, .87);
+
+      .mat-icon {
+        height: 16px;
+        width: 16px;
+        &.material-icons {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+
+#textCalculator {
+  position: absolute;
+  visibility: hidden;
+  font-family: 'Arial';
+  height: auto;
+  width: auto;
+  white-space: pre;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: rgba(0, 0, 0, .35)
+  }
+  50% {
+    background-color: rgba(0, 0, 0, 0)
+  }
+  100% {
+    background-color: rgba(0, 0, 0, .35)
+  }
+}

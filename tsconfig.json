@@ -17,7 +17,15 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@verdocs/signerview": [
+        "dist/verdocs/signerview"
+      ],
+      "@verdocs/signerview/*": [
+        "dist/verdocs/signerview/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

@@ -1,0 +1,47 @@
+.switch-profile {
+  &__container {
+    padding: 24px 24px 0px 24px;
+  }
+  &__title {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: rgba(0, 0, 0, 0.87);
+    margin-bottom: 14px;
+  }
+  &__body {
+    font-size: 16px;
+    line-height: 1.5;
+    color: rgba(0, 0, 0, 0.54);
+  }
+  &__action {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    text-align: right;
+
+    &-button {
+      color: #3f5894;
+      text-transform: uppercase;
+    }
+  }
+  &-icon {
+    &.loading {
+      margin-top: -5px;
+      margin-left: auto;
+      margin-right: auto;
+      -webkit-animation: rotate 2s infinite linear;
+      animation: rotate 2s infinite linear;
+      -moz-animation: rotate 2s infinite linear;
+  }
+  }
+}
+
+
+::ng-deep {
+  .switch-profile {
+    .mat-dialog-container {
+      padding: 0;
+      max-width: 640px;
+    }
+  }
+}

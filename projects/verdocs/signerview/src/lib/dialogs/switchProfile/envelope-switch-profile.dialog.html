@@ -1,0 +1,12 @@
+<div class="switch-profile__container">
+  <div class="switch-profile__title">
+    Switch Profile?
+  </div>
+  <div class="switch-profile__body">
+    This Verdoc requries a different profile of yours.
+  </div>
+  <mat-spinner [diameter]="32" [strokeWidth]="2" class="switch-profile-icon loading" *ngIf="loading">refresh</mat-spinner>  
+  <div class="switch-profile__action">
+    <button mat-button class="switch-profile__action-button" (click)="switch()">SWITCH</button>
+  </div>
+</div>

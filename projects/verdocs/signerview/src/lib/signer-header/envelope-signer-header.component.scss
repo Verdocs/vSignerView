@@ -1,0 +1,438 @@
+@import '../../../../global.scss';
+
+$envelope-signer-header: #33354c;
+.envelope-signer-header {
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: visible;
+    background-color: rgba(0, 0, 0, .6);
+    width: 100%;
+    height: 100%;
+    z-index: 998;
+    transition: background-color .4s cubic-bezier(.25, .8, .25, 1);
+
+    &.agreed {
+      visibility: hidden;
+      opacity: 0;
+      background-color: rgba(0, 0, 0, 0);
+    }
+  }
+
+  &__container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: $envelope-signer-header;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.24), 0 0 4px 0 rgba(0, 0, 0, 0.12);
+    z-index: 999;
+  }
+
+  &__wrapper {
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1028px;
+
+    &.message {
+      max-width: 100%;
+      background-color: #FFF;
+    }
+  }
+
+  &__main-message {
+    position: relative;
+    margin: 0 auto;
+    padding: 20px;
+    max-width: 1028px;
+    width: 100%;
+    height: auto;
+    opacity: 1;
+    visibility: visible;
+    color: $font-black;
+    transition: all .4s cubic-bezier(.25, .8, .25, 1);
+
+    &.agreed {
+      padding: 0;
+      height: 0;
+      opacity: 0;
+      overflow: hidden;
+      visibility: hidden;
+    }
+
+    @media only screen and (max-width: 768px) {
+      padding: 16px;
+    }
+  }
+
+  &__progress {
+    margin: 8px auto;
+  }
+
+  &__message {
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  &__title {
+    line-height: 28px;
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  &__bar {
+    position: relative;
+    padding: 4px;
+    width: 100%;
+    height: 56px;
+    background-color: $envelope-signer-header;
+    color: #FFF;
+  }
+
+  &__menu {
+    padding-left: 0;
+    padding-right: 0;
+    min-width: 48px;
+    width: 48px;
+    height: 48px;
+  }
+
+  &__checkbox {
+    font-size: 12px;
+
+    &.agreed {
+      display: none;
+    }
+  }
+
+  &__instruction {
+    height: 0;
+    opacity: 0;
+    visibility: hidden;
+    font-size: 12px;
+    transition: all .4s cubic-bezier(.25, .8, .25, 1);
+
+    &.agreed {
+      height: auto;
+      opacity: 1;
+      visibility: visible;
+    }
+
+    &.singleSigner {
+      @media only screen and (max-width: 415px) {
+        width: 80%;
+      }
+      @media only screen and (max-width: 375px) {
+        width: 75%;
+      }
+    }
+    &.twoSigner {
+      @media only screen and (max-width: 415px) {
+        width: 70%;
+      }
+      @media only screen and (max-width: 375px) {
+        width: 65%;
+      }
+    }
+  }
+
+  &__error {
+    &-button {
+      &.hasError{
+        animation: pulse .75s 2;
+        color: #FF6E6E;
+      }
+      &.hasErrorOdd.hasError {
+        animation: pulse .74s 2;
+        color: #FF6E6D;
+      }
+      &.hasErrorEven.hasError {
+        animation: pulse .76s 2;
+        color: #FF6E6D;
+      }
+    }
+
+    &-count {
+      position: absolute;
+      top: 3px;;
+      right: 3px;
+      color: #37474f;
+      background-color: #FF6E6D;
+      width: 18px;
+      height: 18px;
+      font-size: 12px;
+      line-height: 18px;
+      border-radius: 50%;
+    }
+  }
+
+  &__button {
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: 2px;
+    background-color: #50BE80;
+    color: #fff;
+    text-transform: uppercase;
+    transition: all .4s cubic-bezier(.25, .8, .25, 1);
+
+    &:disabled {
+      background-color: rgba(204, 204, 204, 0.12);
+      color: rgba(255, 255, 255, 0.3);; 
+    }
+  }
+
+  &__agree {
+    width: 64px;
+    min-width: 64px;
+    &.agreed {
+      opacity: 0;
+      visibility: hidden;
+      min-width: 0;
+      width: 0;
+    }
+  }
+
+  &__action {
+    min-width: 0;
+    width: 0;
+    opacity: 0;
+    visibility: hidden;
+    &.progress.agreed {
+      width: 64px;
+      min-width: 64px;
+      height: 36px;
+      visibility: visible;
+      opacity: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 4px;
+      box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+    }
+    &.agreed {
+      width: 64px;
+      min-width: 64px;
+      opacity: 1;
+      visibility: visible;
+      &.pay {
+        min-width: 128px;
+      }
+      &.approve {
+        min-width: 88px;
+      }
+    }
+  }
+
+}
+
+.envelope-signer-legend {
+  float: left;
+  &__button {
+    background-color: #FAFAFA;
+    text-transform: uppercase;
+    width: 36px;
+    height: 36px;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 14px;
+    font-family: Lato;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: normal;
+
+    &-inside {
+      width: 34px;
+      height: 34px;
+      line-height: 34px;
+      border-radius: 50%;
+
+      &.current {
+        margin-top: -1px;
+        margin-left: -1px;
+      }
+
+      &.mobile {
+        width: 32px;
+        height: 32px;
+
+        &.current {
+          margin-top: -2px;
+          margin-left: -2px;
+        }
+      }
+    }
+  }
+
+  &.mobile {
+    #current, #next, #num {
+      width: 32px;
+      height: 32px;
+      bottom: 12px;
+    }
+  }
+
+  #current {
+    position: absolute;
+    border: 2px solid #FFC107;
+    z-index: 2;
+    right: 150px;
+    bottom: 10px;
+    &.single {
+      right: 114px;
+    }
+
+    &.double {
+      right: 138px;
+    }
+    .envelope-signer-legend__button {
+      margin-top: -2px;
+      margin-left: -2px;
+    }
+  }
+  #current-background {
+    position: absolute;
+    z-index: 1;
+    width: 48px;
+    height: 48px;;
+    right: 146px;
+    bottom: 4px;
+    border: solid 5px #d6d6d6;
+
+    &.single {
+      right: 80px;
+    }
+
+    &.double {
+      right: 104px;
+    }
+  }
+  #next {
+    position: absolute;
+    z-index: 3;
+    width: 34px;
+    height: 34px;
+    right: 118px;
+    bottom: 11px;
+
+    &.double {
+      right: 80px;
+    }
+  }
+  #num {
+    position: absolute;
+    z-index: 4;
+    width: 34px;
+    height: 34px;
+    right: 86px;
+    bottom: 11px;
+
+    &.double {
+      right: 80px;
+    }
+  }
+  &__menu {
+    background-color: #fafafa;
+    .cdk-overlay-pane {
+      top: 56px;
+      right: 86px;
+    }
+  }
+  &__item {
+    height: 72px;
+    width: 280px;
+    padding: 0px;
+    text-align: center;
+    &-image {
+      width: 64px;;
+      height: 72px;
+      line-height: 40px;
+      vertical-align: top;
+      padding-top: 16px;
+      display: inline-block;
+    }
+    &-body {
+      width: 216px;
+      height: 72px;
+      display: inline-block;
+    }
+    &-details {
+      height: 72px;
+      width: 100%;
+      display: block;
+      &-name {
+        height: 36px;
+        font-family: Roboto;
+        font-size: 16px;
+        font-weight: normal;
+        letter-spacing: normal;
+        text-align: left;
+        display: block;
+        color: rgba(0, 0, 0, 0.87);
+      }
+      &-email {
+        height: 36px;
+        line-height: 20px;
+        font-family: Roboto;
+        font-size: 14px;
+        font-weight: normal;
+        letter-spacing: normal;
+        text-align: left;
+        display: block;
+        color: rgba(0, 0, 0, 0.54);
+      }
+
+    }
+  }
+}
+
+.envelope__errors {
+  &-container {
+    position: fixed;
+    bottom: 60px;
+    right: 0;
+    max-width: 325px;
+    max-height: 170px;
+    overflow-y: scroll;
+    opacity: 1;
+    &.show, &.hide {
+      animation-name: scaleAnimationShow;
+      animation-duration: 0.25s;
+      animation-fill-mode: forwards;
+    }
+    &.hide {
+      animation-name: scaleAnimationHide;
+      animation-duration: 0.25s;
+      animation-fill-mode: forwards;
+    }
+  }
+}
+
+.no-click {
+  pointer-events: none;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: rgba(255, 255, 255, 0.35);
+  }
+  50% {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  100% {
+    background-color: rgba(255, 255, 255, 0.35);
+  }
+}
+
+@keyframes scaleAnimationShow {
+	0% { opacity: 0; transform: translate3d(0,40px,0) scale3d(0.1,0.6,1); visibility: visible;}
+	100% { opacity: 1; transform: translate3d(0,0,0) scale3d(1,1,1); visibility: visible;}
+}
+
+@keyframes scaleAnimationHide {
+	0% { opacity: 1; transform: translate3d(0,0,0) scale3d(1,1,1); visibility: visible; }
+  99% { opacity: 0.1; transform: translate3d(0,40px,0) scale3d(0.1,0.6,1); visibility: visible;}
+  100% {opacity: 0;visibility: hidden;}
+}

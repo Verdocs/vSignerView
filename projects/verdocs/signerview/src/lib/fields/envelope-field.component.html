@@ -1,0 +1,95 @@
+<form [formGroup]="envelopeFieldsFormGroup" class="envelope__items" #itemContainer (window:resize)="onResize()" *ngIf="envelopeFieldsFormGroup">
+  <div class="envelope__item" *ngFor="let field of _fields[pageNum]; let j = index; trackBy: fieldTracking" [ngClass]="{prepared: _fields[pageNum][j]['prepared'], radio: field?.controlType === 'radio_button_group', notSelected: !!selectedRoleName && selectedRoleName !== field.recipientRole, inactive: isInactive(pageNum, j) && this.mode !== 'prepareview'}"
+    [attr.data-page]="pageNum" [attr.data-index]="j" #itemWrapper [ngSwitch]="field.controlType" [matTooltip]="isInactive(pageNum, j) ? 'Assigned to ' + _fields[pageNum][j]['full_name'] : preparedMessage"
+    [matTooltipDisabled]="!_fields[pageNum][j]['prepared'] && !isInactive(pageNum, j)">
+    <div class="envelope__signature" *ngSwitchCase="'signature'" [ngClass]="{focused: isFocused(pageNum, j)}">
+      <button class="envelope__field" [tabIndex]="_fields[pageNum][j]['recipientRole']!==roleName ? -1 : 1" [ngStyle]="_fields[pageNum][j]['initialStyle']"
+        [ngClass]="{'envelope__field--hide': isSigned(pageNum, j)}" [value]="_fields[pageNum][j]['value']" (click)="initiateSign(pageNum, j, fields[pageNum][j])"
+        (blur)="prepareFieldsForSigner(_fields, _fields[pageNum][j]['key'], false)"
+        [disabled]="_fields[pageNum][j]['recipientRole']!==roleName" [id]="_fields[pageNum][j]['key']"> Signature </button>
+      <div class="envelope__signature-frame" *ngIf="isSigned(pageNum, j)">
+        <img width="100%" height="100%" [src]="getSignatureImg(pageNum,j)" />
+      </div>
+    </div>
+    <div class="envelope__initial" *ngSwitchCase="'initial'" [ngClass]="{focused: isFocused(pageNum, j)}">
+      <button class="envelope__field" [tabIndex]="_fields[pageNum][j]['recipientRole']!==roleName ? -1 : 1" [ngStyle]="_fields[pageNum][j]['initialStyle']"
+        [ngClass]="{'envelope__field--hide': isInitialed(pageNum, j)}" [value]="_fields[pageNum][j]['value']" (click)="initiateInitial(pageNum, j, fields[pageNum][j])"
+        (blur)="prepareFieldsForSigner(_fields, _fields[pageNum][j]['key'], false)"
+        [disabled]="_fields[pageNum][j]['recipientRole']!==roleName || _fields[pageNum][j]?.prepared" [id]="_fields[pageNum][j]['key']"> Initial
+      </button>
+      <div class="envelope__initial-frame" *ngIf="isInitialed(pageNum, j)">
+        <img width="100%" height="100%" [src]="getInitialImg(pageNum,j)" />
+      </div>
+    </div>
+    <div class="envelope__attachment" *ngSwitchCase="'attachment'" [ngClass]="{focused: isFocused(pageNum, j)}">
+      <button class="envelope__field" [tabIndex]="_fields[pageNum][j]['recipientRole']!==roleName ? -1 : 1" [ngStyle]="_fields[pageNum][j]['initialStyle']"
+        [ngClass]="{'envelope__field--hide': isInitialed(pageNum, j)}" [value]="_fields[pageNum][j]['value']" (click)="handleInput(pageNum, j, $event.target.value);initiateUpload(pageNum, j)"
+        (blur)="prepareFieldsForSigner(_fields, field['key'], false)"
+        [disabled]="_fields[pageNum][j]['recipientRole']!==roleName" [id]="_fields[pageNum][j]['key']">
+        <mat-icon>attachment</mat-icon>
+      </button>
+    </div>
+    <div class="envelope__payment" *ngSwitchCase="'payment'" [ngClass]="{focused: isFocused(pageNum, j)}">
+      <button class="envelope_field" [tabIndex]="_fields[pageNum][j]['recipientRole']!==roleName ? -1 : 1" [ngStyle]="_fields[pageNum][j]['initialStyle']"
+        [ngClass]="{'envelope__field--hide': isInitialed(pageNum, j)}" [value]="_fields[pageNum][j]['value']" (click)="openPayment(pageNum, j)"
+        (blur)="prepareFieldsForSigner(_fields, _fields[pageNum][j]['key'], false)"
+        [disabled]="_fields[pageNum][j]['recipientRole']!==roleName" [id]="_fields[pageNum][j]['key']">
+        <mat-icon>attach_money</mat-icon>
+      </button>
+    </div>
+    <div class="envelope__textbox" *ngSwitchCase="'textbox'" [ngClass]="{focused: isFocused(pageNum, j)}">
+      <input *ngIf="!isTextarea(fields[pageNum][j])" class="envelope__field input" [ngStyle]="_fields[pageNum][j]['initialStyle']"
+        [tabIndex]="getTabIndex(pageNum, j)" [formControlName]="field['key']" [value]="field['value']"
+        (input)="handleInput(pageNum, j, $event.target.value, $event)" (blur)="handleBlur(pageNum, j, $event.target.value, $event);"
+        [id]="_fields[pageNum][j]['key']">
+      <textarea *ngIf="isTextarea(fields[pageNum][j])" #textarea class="envelope__field textarea" [ngStyle]="_fields[pageNum][j]['initialStyle']"
+        [tabIndex]="getTabIndex(pageNum, j)" [formControlName]="field['key']" [value]="field['value']"
+        (input)="handleInput(pageNum, j, $event.target.value, $event)" (blur)="handleBlur(pageNum, j, $event.target.value, $event);"
+        [id]="_fields[pageNum][j]['key']"></textarea>
+    </div>
+    <div class="envelope__textbox" *ngSwitchCase="'placeholder'">
+      <input class="envelope__field" [ngStyle]="_fields[pageNum][j]['initialStyle']" [value]="_fields[pageNum][j]['value']"
+        readonly>
+    </div>
+    <div class="envelope__checkbox" *ngSwitchCase="'checkbox_group'" [ngClass]="{focused: isFocused(pageNum, j)}">
+      <input class="envelope__field envelope__field-checkbox" type="checkbox" #checkboxGroupInput
+        [ngStyle]="_fields[pageNum][j]['initialStyle']" [formControlName]="_fields[pageNum][j]['key']" [checked]="_fields[pageNum][j]['value']"
+        tabindex="-1">
+      <label for="{{_fields[pageNum][j].key}}" [ngStyle]="_fields[pageNum][j]['checkboxStyle']" [tabIndex]="getTabIndex(pageNum, j)"
+        [ngClass]="{prepared: _fields[pageNum][j]['prepared'] && mode !== 'prepareview' }" (keydown.space)="preventDefault($event); handleGroupField(pageNum, j, !checkboxGroupInput.checked)"
+        (blur)="prepareFieldsForSigner(_fields, _fields[pageNum][j]['key'], false)"
+        (click)="preventDefault($event); handleGroupField(pageNum, j, !!!checkboxGroupInput.checked)" [id]="_fields[pageNum][j]['key']"></label>
+    </div>
+    <div class="envelope__dropdown" *ngSwitchCase="'dropdown'" [ngClass]="{focused: isFocused(pageNum, j)}">
+        <select class="envelope__field envelope__field-dropdown" [tabIndex]="getTabIndex(pageNum, j)" (change)="handleDropdown(pageNum, j, $event.target.value)" [id]="_fields[pageNum][j].key"
+                (blur)="prepareFieldsForSigner(_fields, _fields[pageNum][j]['key'], false)"
+                [ngStyle]="_fields[pageNum][j]['initialStyle']" [formControlName]="_fields[pageNum][j]['key']">
+          <option [value]="null">Select...</option>
+          <option *ngFor="let option of field.options; trackBy: optionTracking" [ngValue]="option.value">{{option.value}}</option>
+        </select>
+      </div>
+    <div class="envelope__radio_button" *ngSwitchCase="'radio_button_group'" [ngClass]="{focused: isFocused(pageNum, j)}">
+      <input class="envelope__field envelope__field-radio" type="radio" #radioInput
+        [ngStyle]="_fields[pageNum][j]['initialStyle']" [formControlName]="_fields[pageNum][j]['key']" [checked]="_fields[pageNum][j]['value']"
+        tabindex="-1">
+      <label for="{{_fields[pageNum][j].key}}" [ngStyle]="_fields[pageNum][j]['checkboxStyle']" [tabIndex]="getTabIndex(pageNum, j)"
+        [ngClass]="{prepared: _fields[pageNum][j]['prepared'] && mode !== 'prepareview' }" (keydown.space)="preventDefault($event); handleGroupField(pageNum, j, !radioInput.checked)"
+        (blur)="prepareFieldsForSigner(_fields, _fields[pageNum][j]['key'], false)"
+        (click)="preventDefault($event); handleGroupField(pageNum, j, !!!radioInput.checked)" [id]="_fields[pageNum][j]['key']"></label>
+    </div>
+    <div class="envelope__timestamp" *ngSwitchCase="'timestamp'">
+      <input class="envelope__field" [ngStyle]="_fields[pageNum][j]['initialStyle']" [value]="today" disabled>
+    </div>
+    <div class="envelope__date" *ngSwitchCase="'date'" [ngClass]="{focused: isFocused(pageNum, j)}">
+      <input class="calendar" [matDatepicker]="calendarDate" placeholder="Select Date" [formControlName]="_fields[pageNum][j]['key']"
+        [ngStyle]="_fields[pageNum][j]['initialStyle']" [tabIndex]="getTabIndex(pageNum, j)" (dateInput)="saveDateValue(pageNum, j)"
+        (focus)="markDateDirty(field.key, pageNum, j)"
+        (click)="calendarDate.open()" (keydown)="clear(pageNum, j, $event)" [id]="_fields[pageNum][j]['key']">
+      <mat-datepicker [touchUi]="isMobile()" #calendarDate></mat-datepicker>
+    </div>
+    <div class="envelope__clear" *ngIf="mode==='prepareview' && _fields[pageNum][j]['prepared']">
+      <mat-icon class="envelope__clear-button" (click)="clear(pageNum, j, $event)">cancel</mat-icon>
+    </div>
+  </div>
+</form>
+<div id="textCalculator" #textCalculator></div>

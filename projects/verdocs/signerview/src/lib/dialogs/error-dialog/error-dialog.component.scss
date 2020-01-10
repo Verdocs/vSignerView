@@ -1,0 +1,59 @@
+.error-dialog {
+  &__container {
+    padding: 0 10px;
+    position: relative;
+    height: auto;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  &__items {
+    position: relative;
+    display: flex;
+    margin-top: 10px;
+    background-color: #37474f;
+    height: 56px;
+    width: 325px;
+    justify-items: center;
+    align-items: center;
+    border-radius: 2px;
+    box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 0.24), 0 0 6px 0 rgba(0, 0, 0, 0.12);
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &__icon {
+    &-container {
+      padding-left: 12px;
+      padding-right: 12px;
+      float: left;
+      color: #FF6E6E;
+    }
+  }
+
+  &__message {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    line-height: 16px;
+    float: left;
+    color: #FFF;
+  }
+
+  &__button {
+    color: #CCC;
+    font-weight: 500;
+    text-transform: uppercase;
+
+    &:hover {
+      color: #FFF;
+    }
+    &-container {
+      float: left;
+    }
+  }
+}

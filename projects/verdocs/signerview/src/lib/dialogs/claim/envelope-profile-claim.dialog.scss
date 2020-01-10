@@ -1,0 +1,98 @@
+$background-gray: #FAFAFA;
+$notification-border: #979797;
+
+.envelope-claim {
+  &__container {
+    margin: 22px 24px 0px 24px;
+  }
+  &__header {
+    height: 48px;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: normal;
+    text-align: left;
+    color: rgba(0, 0, 0, 0.87);
+  }
+  &__action {
+    text-align: right;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    height: 52px;
+
+    &-button {
+      color: #3f5894;
+      text-transform: uppercase;
+    }
+  }
+}
+
+::ng-deep {
+  .envelope-claim {
+    .mat-dialog-container {
+      padding: 0;
+      max-width: 304px;
+    }
+  }
+}
+
+.account__profile {
+  line-height: 56px;
+  height: 56px;
+  width: 100%;
+  text-align: left;
+  &-icon {
+      &.left {
+          margin-right: 24px;
+          &.loading {
+            margin-top: -5px;
+            margin-left: auto;
+            margin-right: auto;
+            -webkit-animation: rotate 2s infinite linear;
+            animation: rotate 2s infinite linear;
+            -moz-animation: rotate 2s infinite linear;
+        }
+      }
+      &.right {
+          float: right;
+          margin-top: 16px;
+      }
+  }
+  &-name {
+      text-transform: capitalize;
+  }
+}
+
+::ng-deep .menu__profile {
+  &-container {
+      width: 256px;
+      background-color: $background-gray;
+      .mat-menu-panel {
+          max-height: calc(100vh - 250px);
+      }
+      .mat-menu-content {
+          padding: 0;
+      }
+  }
+  &-title {
+      line-height: 56px;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+    &-button.mat-button {
+      line-height: 56px;
+      width: 100%;
+      text-align: left;
+  }
+  &-icon {
+      margin-right: 24px;
+      &.right {
+          margin-top: 16px;
+          margin-right: 0;
+          float: right;
+      }
+  }
+  &-name {
+      text-transform: capitalize;
+  }
+}

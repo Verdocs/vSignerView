@@ -1,0 +1,116 @@
+<div class="envelope-signer-header__overlay" [ngClass]="{agreed: !notAgreed}">
+</div>
+<div class="envelope__errors-container" [ngClass]="{show: showErrors, hide: !showErrors}">
+  <app-field-error-dialog></app-field-error-dialog>
+</div>
+<div class="envelope-signer-header__container" (window:resize)="checkWindowSize()">
+  <div class="envelope-signer-header__wrapper message">
+    <div class="envelope-signer-header__main-message" [ngClass]="{agreed: !notAgreed}">
+      <div class="envelope-signer-header__title">
+        Please review and act on these documents.
+      </div>
+      <div class="envelope-signer-header__message" *ngIf="message">
+        Private Message: {{message}}
+      </div>
+    </div>
+  </div>
+  <div class="envelope-signer-header__wrapper">
+    <div class="envelope-signer-header__bar" fxLayout="row" fxLayoutAlign="space-between center">
+      <button mat-button [matMenuTriggerFor]="menu" class="envelope-signer-header__menu" fxFlex="40px">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button class="envelope-signer-header__menu-item" mat-menu-item (click)="saveEnvelope()">
+          <span>Finish Later</span>
+        </button>
+        <button class="envelope-signer-header__menu-item" [disabled]="!canClaimEnvelope()" mat-menu-item (click)="openClaimDialog()">
+          <span>Claim the Verdoc</span>
+        </button>
+        <div matTooltip="{{notAgreed ? 'Accept terms before assigning to someone else.' : ''}}">
+          <button class="envelope-signer-header__menu-item" mat-menu-item (click)="toggleDelegate()" *ngIf="isDelegator && isSignerView()" [disabled]="notAgreed">
+            <span >Assign to Someone Else</span>
+          </button>
+        </div>
+        <button class="envelope-signer-header__menu-item" mat-menu-item (click)="decline()">
+          <span>Decline to Sign</span>
+        </button>
+        <button class="envelope-signer-header__menu-item" mat-menu-item (click)="printPdf()" hide-mobile>
+          <span>Print Without Signing</span>
+        </button>
+        <button hide-mobile class="envelope-signer-header__menu-item" mat-menu-item (click)="downloadPDF()">
+          <span>Download</span>
+        </button>
+        <!-- <hr>
+        <button class="envelope-signer-header__menu-item" mat-menu-item>
+          <span>View Electronic Record and Signature Disclosure</span>
+        </button> -->
+      </mat-menu>
+      <div class="envelope-signer-header__instructions" fxFlex="100%">
+        <mat-checkbox class="envelope-signer-header__checkbox" [(ngModel)]="agreeToggled" [ngClass]="{'agreed': !notAgreed, 'singleSigner': signerRecipients.length === 1, 'twoSigner': signerRecipients.length === 2, 'multiSigner': signerRecipients.length > 2}">I agree to use electronic records and signatures.</mat-checkbox>
+        <div class="envelope-signer-header__instruction" [ngClass]="{'agreed': !notAgreed, 'singleSigner': signerRecipients.length === 1, 'twoSigner': signerRecipients.length === 2, 'multiSigner': signerRecipients.length > 2}">
+          {{fieldMessage}}
+        </div>
+      </div>
+      <div class="envelope-signer-legend" fxShow.gt-xs fxHide.xs>
+        <button mat-icon-button *ngIf="!!currentRecipient" class="envelope-signer-legend__button first" id="current" [matMenuTriggerFor]="recipientsMenu" [matTooltip]="currentRecipient.full_name" [ngClass]="{'single': signerRecipients.length === 1}">
+          <div class="envelope-signer-legend__button-inside current" [ngStyle]="currentRecipient.style">{{getInitials(currentRecipient.full_name)}}</div>
+        </button>
+        <button mat-icon-button *ngIf="!!nextRecipient" class="envelope-signer-legend__button" id="next" [matMenuTriggerFor]="recipientsMenu">
+          <div class="envelope-signer-legend__button-inside" [ngStyle]="nextRecipient.style">{{getInitials(nextRecipient.full_name)}}</div>
+        </button>
+        <button mat-icon-button *ngIf="!!thirdRecipient && signerRecipients.length === 3" class="envelope-signer-legend__button" id="num" [matMenuTriggerFor]="recipientsMenu">
+          <div class="envelope-signer-legend__button-inside" [ngStyle]="thirdRecipient.style">{{getInitials(thirdRecipient.full_name)}}</div>
+        </button>
+        <button mat-icon-button *ngIf="!!signerRecipients && signerRecipients.length > 3" class="envelope-signer-legend__button" id="num" [matMenuTriggerFor]="recipientsMenu">
+          +{{signerRecipients.length - 2}}
+        </button>
+      </div>
+      <!-- <div class="envelope-signer-legend mobile" fxHide.gt-xs fxShow.xs [ngClass]="{'single': signerRecipients.length === 1}">
+        <button mat-icon-button *ngIf="!!currentRecipient" class="envelope-signer-legend__button" id="current" [matMenuTriggerFor]="recipientsMenu"
+          [matTooltip]="currentRecipient.full_name"
+          [ngClass]="{'single': signerRecipients.length === 1, 'double': signerRecipients.length > 1}">
+          <div class="envelope-signer-legend__button-inside mobile current" [ngStyle]="currentRecipient.style">{{getInitials(currentRecipient.full_name)}}</div>
+        </button>
+        <button mat-icon-button *ngIf="!!nextRecipient && signerRecipients.length === 2" class="envelope-signer-legend__button" id="next" [matMenuTriggerFor]="recipientsMenu"
+                [ngClass]="{'single': signerRecipients.length === 1, 'double': signerRecipients.length > 1}">
+                <div class="envelope-signer-legend__button-inside mobile" [ngStyle]="nextRecipient.style">{{getInitials(nextRecipient.full_name)}}</div>
+        </button>
+        <button mat-icon-button *ngIf="!!signerRecipients && signerRecipients.length > 2" class="envelope-signer-legend__button" id="next" [matMenuTriggerFor]="recipientsMenu"
+                [ngClass]="{'single': signerRecipients.length === 1, 'double': signerRecipients.length > 1}">
+          +{{signerRecipients.length - 1}}
+        </button>
+      </div> -->
+      <mat-menu #recipientsMenu="matMenu" class="envelope-signer-legend__menu" [overlapTrigger]="false" xPosition="before" yPosition="below">
+        <div mat-menu-item *ngFor="let recipient of signerRecipients; trackBy: recipientTracking;" class="envelope-signer-legend__item no-click">
+          <div class="envelope-signer-legend__item-image">
+            <button mat-icon-button *ngIf="!!recipient" class="envelope-signer-legend__button" [ngStyle]="recipient.style">{{getInitials(recipient.full_name)}}</button>
+          </div>
+          <div class="envelope-signer-legend__item-body">
+            <div class="envelope-signer-legend__item-details">
+              <div class="envelope-signer-legend__item-details-name">
+                {{recipient.full_name}}
+              </div>
+              <div class="envelope-signer-legend__item-details-email">
+                {{recipient.email}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-menu>
+      <button *ngIf="errors && errors.length > 0" mat-icon-button class="envelope-signer-header__error-button" [ngClass]="{hasError: errors && errors.length > 0, hasErrorOdd: errors && errors.length > 0 && errors.length % 2 === 1, hasErrorEven: errors && errors.length > 0 && errors.length % 2 === 0}" (click)="toggleError()">
+        <mat-icon>error_outline</mat-icon>
+        <div *ngIf="errors && errors.length > 0" class="envelope-signer-header__error-count">{{errors?.length > 9 ? '9+' : errors?.length}}</div>
+      </button>
+      <button mat-raised-button class="envelope-signer-header__agree envelope-signer-header__button" [ngClass]="{agreed: !notAgreed}" (click)="agree()" [disabled]="!agreeToggled">start</button>
+      <div *ngIf="inProgress || requiredFields === null || loadingProgress <= 99" class="envelope-signer-header__action progress envelope-signer-header__button" [ngClass]="{agreed: !notAgreed}">
+        <mat-spinner diameter="20"></mat-spinner>
+      </div>
+      <button mat-raised-button class="envelope-signer-header__action envelope-signer-header__button" [ngClass]="{agreed: !notAgreed, pay: actionLabel === 'pay and submit', approve: actionLabel === 'approve'}" (click)="setActionClickTrue();action();" *ngIf="!canComplete && loadingProgress > 99 && !inProgress" [disabled]="inProgress || requiredFields === null">
+        <span class="envelope-signer-header__progress" *ngIf="!inProgress && requiredFields !== null && loadingProgress > 99" class="next">{{actionLabel}}</span>
+      </button>
+      <button class="envelope-signer-header__action envelope-signer-header__button" mat-raised-button class="envelope-signer-header__action envelope-signer-header__button" [ngClass]="{agreed: !notAgreed, pay: actionLabel === 'pay and submit', approve: actionLabel === 'approve'}" (click)="submitSignerView();" *ngIf="canComplete && loadingProgress > 99 && !inProgress" [disabled]="inProgress || requiredFields === null">
+        <span *ngIf="!inProgress && requiredFields !== null && loadingProgress > 99">{{actionLabel}}</span>
+      </button>
+    </div>
+  </div>
+</div>

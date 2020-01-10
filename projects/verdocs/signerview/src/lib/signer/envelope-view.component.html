@@ -1,0 +1,25 @@
+<div class="envelope__filler" [ngClass]='{agreed: agreed}'></div>
+<div class="envelope__progress-bar" *ngIf="pageLoading">
+  <mat-progress-bar mode="determinate" [value]="loadingProgress"></mat-progress-bar>
+</div>
+<div class="envelope__body" #pdfBody *ngIf="pdfUrl && !pageDownloading" (window:resize)="fixHeight()"
+  [ngClass]="{'page-loading': !!pageLoading}">
+  <verdocs-pdf-viewer #pdfDoc class="edit__pdf" *ngIf="isBrowser" (page-rendered)="onPageRendered($event)"
+    (scale-change)="onScaleChange($event)" [pdfUrl]="pdfUrl.changingThisBreaksApplicationSecurity">
+  </verdocs-pdf-viewer>
+  <div class="envelope__fields"
+    *ngIf="fields && recipients && envelopeId && pdfPages && pdfPages.length === totalPages.length">
+    <div *ngFor="let num of totalPages; let i = index; trackBy: numTracking;" [id]="'pdf_'+(i+1)"
+      class="envelope__field" #fieldWrappers [ngStyle]="getWrapperStyling(i)">
+      <envelope-field [fields]="fields" [pageNum]="i+1" [roleName]="rName" [id]="envelopeId" [recipients]="recipients"
+        [pdfPages]="pdfPages" [currentSignature]="currentSignature" [currentSignatureId]="currentSignatureId"
+        [currentInitial]="currentInitial" [currentInitialId]="currentInitialId"
+        (onSignatureComplete)="onSignatureComplete($event)" (onInitialComplete)="onInitialComplete($event)"
+        *ngIf="pageRendered[i] === i + 1">
+      </envelope-field>
+    </div>
+  </div>
+</div>
+<app-envelope-attachments *ngIf="envelopeId && attachments.length > 0" [envelopeId]="envelopeId">
+</app-envelope-attachments>
+<app-envelope-signer-header [loadingProgress]="loadingProgress"></app-envelope-signer-header>

@@ -1,0 +1,22 @@
+.decline {
+  &__container {
+    background-color: #fff;
+    padding: 24px;
+  }
+
+  &__footer {
+    background-color: #D8D8D8;
+    padding: 8px;
+  }
+
+  &__buttons {
+    text-align: right;
+
+    a, button {
+      background-color: transparent;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #213d59;
+    }
+  }
+}

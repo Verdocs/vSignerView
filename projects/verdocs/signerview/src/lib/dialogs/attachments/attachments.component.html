@@ -1,0 +1,14 @@
+<div class="envelope__attachment">
+  <div class="envelope__attachment-box">
+    <div class="envelope__attachment-container">
+      <div class="envelope__attachment-scroll">
+        <div class="envelope__attachment-wrapper">
+          <button mat-button class="envelope__attachment-button" *ngFor="let attachment of attachments; trackBy: attachmentTracking"
+          (click)="downloadFile(attachment)">
+            <mat-icon class="envelope__attachment-icon">attachment</mat-icon>{{attachment.settings.name}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

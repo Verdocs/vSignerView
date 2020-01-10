@@ -1,0 +1,53 @@
+<div class="envelope__progress-bar" *ngIf="loading">
+  <mat-progress-bar mode="determinate" [value]="templatePdfProgress"></mat-progress-bar>
+</div>
+<div class="envelope__progress-bar" *ngIf="!loading && pageRendered.length < totalPages?.length || !totalPages">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+<div class="envelope__header">
+  <!-- <button class="envelope__return" mat-button *ngIf="currentProfile" (click)="returnToPreviousPage()">
+    <mat-icon class="envelope__return-icon">arrow_back</mat-icon> BACK
+  </button>
+  <div class="envelope__realster">
+    <rangular-icons [type]="'liveview'" [overrideLauncherRight]="overrideLauncherRight"
+      [overrideLauncherTop]="overrideLauncherTop" [overrideProfileRight]="overrideProfileRight"
+      [overrideProfileTop]="overrideProfileTop"></rangular-icons>
+  </div> -->
+</div>
+<div class="envelope__body placeholder" *ngIf="!pdfUrl || loading || pageRendered.length < totalPages?.length || !totalPages">
+  <img class="envelope__placeholder" src="/assets/template/document_placeholder.svg">
+</div>
+<div class="envelope__body" *ngIf="pdfUrl && !loading" #pdfBody (window:resize)="onResize()" [ngClass]="{hidden: pageRendered.length < totalPages?.length}">
+  <div class="envelope__overlay" (click)="selectRole(null, $event)"></div>
+  <verdocs-pdf-viewer #pdfDoc class="edit__pdf" *ngIf="isBrowser" (page-rendered)="onPageRendered($event)"
+    (scale-change)="onScaleChange($event)" [pdfUrl]="pdfUrl.changingThisBreaksApplicationSecurity">
+  </verdocs-pdf-viewer>
+  <div class="envelope__fields"
+    *ngIf="(fields && fields.length > 0 && pdfPages && pdfPages.length === totalPages.length)">
+    <div *ngFor="let num of totalPages; let i = index; trackBy: numTracking;" class="envelope__field"
+      [id]="'pdf_'+(i+1)" [ngStyle]="getWrapperStyling(i)" #fieldWrappers>
+      <envelope-fields-lite [fields]="fields" [pageNum]="i+1" [recipients]="roles"
+        [selectedRoleName]="selectedRole" [pdfPages]="pdfPages" *ngIf="pageRendered[i] === i + 1"></envelope-fields-lite>
+    </div>
+  </div>
+</div>
+<div class="envelope__footer">
+  <div class="envelope__recipients-container">
+    <div class="envelope__recipient" *ngFor="let role of roles; let i = index; trackBy: roleTracking"
+      (click)="selectRole(role.name, $event)" [ngClass]="{selected: role.name === selectedRole}"
+      matTooltip="{{tooltipText(role)}}" [matTooltipPosition]="'above'" [matTooltipClass]="'roleTooltip'"
+      [style.backgroundColor]="getRGB(i)">
+      {{roleInitial(role)}}</div>
+  </div>
+  <div class="envelope__action-container" [ngClass]="{hasCreateDialog: hasCreateDialog, hidden: hasCreateDialog && mode === 'liveview'}"  matTooltip="{{!canSendEnvelope() ? 'Document cannot be used to create a Verdoc' : ''}}">
+      <button mat-raised-button class="envelope__action-button"
+        [disabled]="!canSendEnvelope()"
+        [ngClass]="{inProgress: pageRendered.length < totalPages?.length}" (click)="openCreateEnvelopDialog(true)">
+        <span *ngIf="pageRendered.length >= totalPages?.length && !!totalPages">
+          {{this.mode === 'liveview' ? 'get started' : 'create'}}
+        </span>
+        <mat-progress-spinner class="envelope__action-progress" mode="indeterminate" [diameter]="32"
+          *ngIf="pageRendered.length < totalPages?.length || !totalPages"></mat-progress-spinner>
+      </button>
+    </div>
+</div>

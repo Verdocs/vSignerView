@@ -1,0 +1,33 @@
+<div class="envelope-claim__container">
+  <div class="envelope-claim__header">
+    Where should we claim this envelope?
+  </div>
+  <button mat-button class="account__profile" [matMenuTriggerFor]="Profiles">
+    <mat-icon class="account__profile-icon left" *ngIf="(currentProfile)?.organization && currentProfile.organization.name === 'realster'">account_circle</mat-icon>
+    <mat-icon class="account__profile-icon left" *ngIf="(currentProfile)?.organization && currentProfile.organization.name !== 'realster'">business</mat-icon>
+    <mat-icon class="account__profile-icon left" *ngIf="!(currentProfile)?.organization">error</mat-icon>
+    <span class="account__profile-name">{{ getProfileName() }}</span>
+    <mat-icon class="account__profile-icon right">arrow_drop_down</mat-icon>
+  </button>
+  <mat-menu #Profiles="matMenu" class="menu__profile-container">
+    <div class="menu__profile-wrapper">
+      <div class="menu__profile-item" *ngFor="let profile of profiles; let i = index; trackBy: profileTracking">
+        <button mat-button class="menu__profile-button" (click)="chooseProfile(profile.id)">
+          <mat-icon class="menu__profile-icon" *ngIf="profile.organization.name !== 'realster'">business</mat-icon>
+          <mat-icon class="menu__profile-icon" *ngIf="profile.organization.name === 'realster'">account_circle</mat-icon>
+          <span class="menu__profile-name">{{profile.organization.name === 'realster' ? 'Personal' : profile.organization.name}}</span>
+          <mat-icon class="menu__profile-icon right" *ngIf="markChecked(i)">check</mat-icon>
+        </button>
+      </div>
+      <button mat-button class="menu__profile-button" (click)="claimAsGuest()">
+        <mat-icon class="menu__profile-icon">error</mat-icon>
+        <span class="menu__profile-name">Sign as a guest</span>
+        <mat-icon class="menu__profile-icon right" *ngIf="(currentProfile)?.id === 'guest'">check</mat-icon>
+      </button>
+    </div>
+  </mat-menu>
+  <mat-spinner [diameter]="32" [strokeWidth]="2" class="account__profile-icon left loading" *ngIf="loading">refresh</mat-spinner>
+  <div class="envelope-claim__action">
+    <button mat-button class="envelope-claim__action-button" (click)="claimProfile()">Continue</button>
+  </div>
+</div>
