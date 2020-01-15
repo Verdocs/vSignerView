@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, InjectionToken } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router'
 import { HttpClientModule, HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -32,6 +32,25 @@ import { PaymentDialog } from './dialogs/payments/payment.dialog';
 import { ErrorDialogComponent } from './dialogs/error-dialog/error-dialog.component';
 import { EnvelopeFieldsLiteModule } from './modules/shared/components/envelope-fields/envelope-fields-lite.module';
 import { EventTrackerModule } from '@verdocs/event-tracker';
+
+export interface IPlans {
+  'level-1': string;
+  'level-2': string;
+  'level-3': string;
+}
+export interface IViewConfig {
+  type: 'webComponent' | 'ngComponent';
+  rForm_backend_url: string;
+  rForm_frontend_url: string;
+  rAccount_frontend_url: string;
+  rSecure_frontend_url: string;
+  rPayment_backend_url: string;
+  stripe_publishable_key: string;
+  rForm_cookie_name: string;
+  plans: IPlans
+}
+
+export const viewConfiguration = new InjectionToken<IViewConfig>('IViewConfig')
 
 @NgModule({
   imports: [
@@ -101,4 +120,16 @@ import { EventTrackerModule } from '@verdocs/event-tracker';
     EnvelopeDelegateComponent
   ]
 })
-export class ViewsModule { }
+export class ViewsModule {
+  static initViewModule(config: IViewConfig) {
+    return {
+      ngModule: ViewsModule,
+      providers: [
+        {
+          provide: viewConfiguration,
+          useValue: config
+        }
+      ]
+    };
+  };
+}

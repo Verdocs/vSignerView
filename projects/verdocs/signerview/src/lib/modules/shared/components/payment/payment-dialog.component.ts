@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Injector } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
+import { viewConfiguration, IViewConfig } from '../../../../views.module';
 import { PaymentService } from '../../../../services/payment.service';
-import { environment } from '../../../../environments/environment'
 
 @Component({
   selector: 'app-payment-dialog',
@@ -15,13 +15,19 @@ export class PaymentDialogComponent implements OnInit, OnDestroy {
   public rAccountUserId: string;
   public templateId: string;
   public accounts: any;
+  public viewConfig: IViewConfig;
 
-  private rAccount_frontend_url: string = environment.rAccount_frontend_url;
+  private rAccount_frontend_url: string = 'https://verdocs.com/account';
   private paymentAccountSubscription = new Subscription();
+
   constructor(
+    private injector: Injector,
     private paymentService: PaymentService,
     private dialog: MatDialogRef<PaymentDialogComponent>
-  ) { }
+  ) {
+    this.viewConfig = this.injector.get(viewConfiguration);
+    this.rAccount_frontend_url = this.viewConfig.rAccount_frontend_url;
+  }
 
   ngOnInit() {
     this.paymentAccountSubscription = this.paymentService.getAccounts().subscribe(accounts => {

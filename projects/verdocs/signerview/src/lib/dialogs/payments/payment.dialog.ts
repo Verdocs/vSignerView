@@ -3,14 +3,15 @@ import {
   OnInit,
   AfterContentInit,
   OnDestroy,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  Injector
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { environment } from '../../../../../environments/environment';
 
 import { EnvelopeService } from '../../services/envelope.service';
 import { SnackbarService } from '../../services/snackbar.service';
+import { viewConfiguration, IViewConfig } from '../../views.module';
 
 @Component({
   selector: 'app-stripe-dialog',
@@ -31,16 +32,21 @@ export class PaymentDialog implements OnInit, AfterContentInit, OnDestroy {
   public stripeForm: FormGroup;
   public eventHandler = this.onChange.bind(this);
   public currency: string;
-  public stripe = Stripe(environment.stripe_publishable_key);
+  public stripe;
   public elements = this.stripe.elements();
+  public viewConfig: IViewConfig;
 
   constructor(
+    private injector: Injector,
     private fb: FormBuilder,
     private envelopeService: EnvelopeService,
     private snackbarService: SnackbarService,
     private dialog: MatDialogRef<PaymentDialog>,
     private cdr: ChangeDetectorRef
-  ) { }
+  ) {
+    this.viewConfig = this.injector.get(viewConfiguration);
+    this.stripe = Stripe(this.viewConfig.stripe_publishable_key);
+  }
 
   ngOnInit() {
     if (this.paymentField && this.paymentField['settings']) {

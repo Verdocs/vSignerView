@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injector } from '@angular/core';
 import { VerdocsTokenObjectService } from '@verdocs/tokens';
 import { Router } from '@angular/router';
 
-import { environment } from '../../../../environments/environment';
+import { viewConfiguration, IViewConfig } from '../../../../views.module';
 
 @Component({
   selector: 'four-oh-one-dialog',
@@ -15,13 +15,19 @@ export class FourOhOneDialog implements OnInit {
   public error_code: string = null;
   public error_title: string = null;
   public error_message: string = null;
-  public rSecureUrl = environment.rSecure_frontend_url;
-  public rFormUrl = environment.frontend_url;
+  public viewConfig: IViewConfig;
+  public rSecureUrl: string;
+  public rFormUrl: string;
 
   constructor(
+    private injector: Injector,
     private router: Router,
     private vTokenObjectService: VerdocsTokenObjectService
-  ) { }
+  ) {
+    this.viewConfig = this.injector.get(viewConfiguration);
+    this.rSecureUrl = this.viewConfig.rSecure_frontend_url;
+    this.rFormUrl = this.viewConfig.rForm_frontend_url;
+  }
 
   ngOnInit() {
     this.currentProfile = this.vTokenObjectService.getProfile();

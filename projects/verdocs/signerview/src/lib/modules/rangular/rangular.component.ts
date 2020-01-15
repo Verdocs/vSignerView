@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Inject, PLATFORM_ID, Injector } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
@@ -7,10 +7,9 @@ import { VerdocsStateService, VerdocsAuthGuardService, VerdocsTokenObjectService
 import { Subscription } from 'rxjs';
 import { findIndex, remove, includes } from 'lodash';
 
-import { AccountService } from '../../../services/account.service';
-import { NotificationService, Notification } from '../../../services/notification.service';
-
-import { environment } from '../../../../../environments/environment';
+import { viewConfiguration, IViewConfig } from '../../views.module';
+import { AccountService } from '../../services/account.service';
+import { NotificationService, Notification } from '../../services/notification.service';
 
 @Component({
   selector: 'rangular-icons',
@@ -24,14 +23,15 @@ export class RealsterComponent implements OnInit, OnDestroy {
   public profiles: ProfileCollection;
   public newProfile: any;
   public organization_id: string;
-  public myAccountUrl = environment.rAccount_frontend_url;
-  public rSecureUrl = environment.rSecure_frontend_url;
-  public rFormUrl = environment.frontend_url;
-  public termsUrl = environment.rSecure_frontend_url + '/terms';
-  public privacyUrl = environment.rSecure_frontend_url + '/privacy';
-  public organizationImgSrc = `${environment.rAccount_frontend_url}/assets/organization/select-profile.png`;
+  public myAccountUrl = '';
+  public rSecureUrl = '';
+  public rFormUrl = '';
+  public termsUrl = '';
+  public privacyUrl = '';
+  public organizationImgSrc = '';
   public profileLoading = false;
   public hasProfile = false;
+  public viewConfig: IViewConfig;
   @Input() public overrideLauncherRight = 20;
   @Input() public overrideLauncherTop = 56;
   @Input() public overrideProfileRight = 20;
@@ -42,6 +42,7 @@ export class RealsterComponent implements OnInit, OnDestroy {
   private profileLoadingSubscription = new Subscription();
 
   constructor(
+    private injector: Injector,
     private vTokenStateService: VerdocsStateService,
     private vTokenObjectService: VerdocsTokenObjectService,
     private rAuthGuardService: VerdocsAuthGuardService,
@@ -49,9 +50,17 @@ export class RealsterComponent implements OnInit, OnDestroy {
     private notificationsService: NotificationService,
     private accountService: AccountService,
     private snackbar: MatSnackBar,
-    private router: Router, 
+    private router: Router,
     @Inject(PLATFORM_ID) private platform
-  ) { }
+  ) {
+    this.viewConfig = this.injector.get(viewConfiguration);
+    this.myAccountUrl = this.viewConfig.rAccount_frontend_url;
+    this.rSecureUrl = this.viewConfig.rSecure_frontend_url;
+    this.rFormUrl = this.viewConfig.rForm_frontend_url;
+    this.termsUrl = this.rSecureUrl + '/terms';
+    this.privacyUrl = this.rSecureUrl + '/privacy';
+    this.organizationImgSrc = `${this.myAccountUrl}/assets/organization/select-profile.png`;
+  }
 
   ngOnInit() {
     this.prepareAppList();
@@ -115,7 +124,7 @@ export class RealsterComponent implements OnInit, OnDestroy {
   switch(profile_id: string) {
     this.accountService.switchProfile(profile_id).then(() => {
       if (isPlatformBrowser(this.platform)) {
-        window.location.href = `${environment.frontend_url}`;
+        window.location.href = `${this.rFormUrl}`;
       }
     });
   }
@@ -164,12 +173,6 @@ export class RealsterComponent implements OnInit, OnDestroy {
 
   checkAccess(clientName) {
     return this.vTokenStateService.hasAccessTo(clientName + '_Realster');
-  }
-
-  jumpTo(clientName) {
-    if (isPlatformBrowser(this.platform)) {
-      window.location.href = environment[clientName + '_frontend_url'];
-    }
   }
 
   private hasAccessToAdmin() {

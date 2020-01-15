@@ -1,21 +1,20 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
-import { Observable, BehaviorSubject, ReplaySubject } from 'rxjs';
-import { find } from 'lodash';
+import { Injectable, Injector } from '@angular/core';
+import { HttpClient, HttpRequest } from '@angular/common/http';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
 
-import { environment } from '../../../environments/environment';
 import { VerdocsStateService } from '@verdocs/tokens';
 import { EnvelopeService } from './envelope.service';
 
 import { FieldData } from '../models/field-data.model';
-import { IRecipient, IEnvelopeSignature } from '../models/recipient.model';
-import { dataURLtoBlob } from '../functions/utils'
+import { dataURLtoBlob } from '../functions/utils';
+import { IViewConfig, viewConfiguration } from '../views.module';
 
 @Injectable()
 export class SignatureService {
   private signatureId: string;
   private initialId: string;
-  private envUrl: string = environment.backend + '/envelopes';
+  private backend_url: string = 'https://rformapi.verdocs.com';
+  private envUrl: string = this.backend_url + '/envelopes';
   private currentFields: any[];
   private workingField: FieldData<any> = new FieldData({ order: 0, fName: '' });
   private signatureBlob: Blob;
@@ -40,12 +39,17 @@ export class SignatureService {
   public signedFields: any = {};
   public signImg: any;
   public mode = '';
+  public viewConfig: IViewConfig;
 
   constructor(
+    private injector: Injector,
     private httpClient: HttpClient,
     private envelopeSvc: EnvelopeService,
     private vTokenStateService: VerdocsStateService
   ) {
+    this.viewConfig = this.injector.get(viewConfiguration);
+    this.backend_url = this.viewConfig.rForm_backend_url;
+    this.envUrl = this.backend_url + '/envelopes'
   }
 
   setWorkingPayment(payment: any) {
@@ -61,7 +65,7 @@ export class SignatureService {
     const blobFile = this.signatureBlob;
     const formData = new FormData();
     formData.append('signature', blobFile, blobFile['name']);
-    const request = new HttpRequest('POST', environment.backend + '/signatures', formData);
+    const request = new HttpRequest('POST', this.backend_url + '/signatures', formData);
     return this.httpClient.request(request)
       .toPromise()
       .then(response => {
@@ -77,7 +81,7 @@ export class SignatureService {
     const blobFile = this.initialBlob;
     const formData = new FormData();
     formData.append('initial', blobFile, blobFile['name']);
-    const request = new HttpRequest('POST', environment.backend + '/initials', formData);
+    const request = new HttpRequest('POST', this.backend_url + '/initials', formData);
     return this.httpClient.request(request)
       .toPromise()
       .then(response => {

@@ -9,7 +9,8 @@ import {
   ChangeDetectorRef,
   ViewEncapsulation,
   ChangeDetectionStrategy,
-  ViewChild
+  ViewChild,
+  Injector
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
@@ -25,18 +26,18 @@ import { FixedDialogConfig } from './fixed-dialog-config';
 import { DiscardDialogComponent } from '../../dialogs/discard-dialog/discard-dialog.component';
 import { EnvelopeCreatedDialogComponent } from '../../dialogs/envelope-created-dialog/envelope-created-dialog.component';
 import { LiveViewDialog } from '../../dialogs/live-view-dialog/live-view.dialog';
-import { HeaderService } from '../../../core/services/header.service';
-import { TemplatesGuardService } from 'app/core/services/templates.guard';
-import { TemplatesService } from '../../../core/services/templates.service';
-import { DashboardService } from '../../../core/services/dashboard.service';
-import { EnvelopeService } from '../../../core/services/envelope.service';
-import { LiveViewService } from '../../../core/services/view-data.service';
-import { EmailValidator } from '../../../core/validators/email.validator';
-import { PhoneValidator } from '../../../core/validators/phone.validator';
-import { getRGBA, getRGB } from '../../../core/functions/rgb';
+import { HeaderService } from '../../../../services/header.service';
+import { TemplatesGuardService } from '../../../../services/templates.guard';
+import { TemplatesService } from '../../../../services/templates.service';
+import { DashboardService } from '../../../../services/dashboard.service';
+import { EnvelopeService } from '../../../../services/envelope.service';
+import { LiveViewService } from '../../../../services/view-data.service';
+import { EmailValidator } from '../../../../validators/email.validator';
+import { PhoneValidator } from '../../../../validators/phone.validator';
+import { getRGBA, getRGB } from '../../../../functions/rgb';
 
-import { environment } from '../../../../environments/environment';
-import { TemplateSenderTypes } from 'app/core/definitions/template.enums';
+import { viewConfiguration, IViewConfig } from '../../../../views.module';
+import { TemplateSenderTypes } from '../../../../definitions/template.enums';
 import { VerdocsTokenObjectService } from '@verdocs/tokens';
 import { EventTrackerService } from '@verdocs/event-tracker';
 
@@ -88,8 +89,9 @@ export class CreateEnvelopeContainer implements OnInit, OnDestroy {
   public hasMessage = false;
   public hasDelegator = false;
   public action_string = 'create';
-  public rSecureUrl = environment.rSecure_frontend_url;
-  public rFormUrl = environment.frontend_url;
+  public viewConfig: IViewConfig;
+  public rSecureUrl: string;
+  public rFormUrl: string;
 
   @ViewChild('closeButton', { static: true }) closeButtonElement: ElementRef;
   @ViewChild('rolePhoneInput', { static: true }) rolePhoneInput: ElementRef;
@@ -111,6 +113,7 @@ export class CreateEnvelopeContainer implements OnInit, OnDestroy {
   _id: string;
 
   constructor(
+    private _injector: Injector,
     private _elementRef: ElementRef,
     private _focusTrapFactory: FocusTrapFactory,
     private _changeDetectorRef: ChangeDetectorRef,
@@ -129,6 +132,9 @@ export class CreateEnvelopeContainer implements OnInit, OnDestroy {
     private tokenObjectService: VerdocsTokenObjectService,
     private eventTracker: EventTrackerService
   ) {
+    this.viewConfig = this._injector.get(viewConfiguration);
+    this.rSecureUrl = this.viewConfig.rSecure_frontend_url;
+    this.rFormUrl = this.viewConfig.rForm_frontend_url;
     this._ariaLabelledBy = _config.ariaLabelledBy || null;
   }
 

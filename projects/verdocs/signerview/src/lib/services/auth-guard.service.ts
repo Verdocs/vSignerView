@@ -11,7 +11,6 @@ import {
 } from '@angular/router';
 import { DOCUMENT } from "@angular/common";
 import { VerdocsAuthService, VerdocsAuthGuardService, VerdocsStateService } from '@verdocs/tokens';
-import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class AuthGuardService implements CanActivate, CanActivateChild, CanLoad {

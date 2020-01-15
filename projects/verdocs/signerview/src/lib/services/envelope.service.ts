@@ -1,4 +1,4 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { Injectable, Inject, Injector, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpResponse, HttpRequest, HttpHeaders, HttpEvent } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,15 +11,14 @@ import * as moment from 'moment';
 import { differenceBy } from 'lodash';
 import { VerdocsTokenObjectService, VerdocsStateService } from '@verdocs/tokens';
 
-import { environment } from '../../../environments/environment';
-
+import { viewConfiguration, IViewConfig } from '../views.module';
 import { ValidatorService } from './validator.service';
 import { GuardService } from './guard.service';
 import { getRGBA, nameToRGBA } from '../functions/rgb';
 
 import { Envelope } from '../models/envelope.model';
 import { IEnvelopeSearchParams, SortOptions, ITimePeriod } from '../models/envelope_search.model';
-import { FieldData } from '../../modules/envelopes/field-data.model';
+import { FieldData } from '../models/field-data.model';
 import { IRecipient } from '../models/recipient.model';
 
 @Injectable()
@@ -34,11 +33,12 @@ export class EnvelopeService {
   public fieldsStream = this._currentFields.asObservable();
   public inProgressSubject = new BehaviorSubject<boolean>(false);
   public envelopeData: Envelope;
+  public viewConfig: IViewConfig;
 
   private currEnvelope: string;
   private currRoleName: string;
-  private backendUrl: string = environment.backend;
-  private envUrl: string = environment.backend + '/envelopes';
+  private backendUrl: string;
+  private envUrl: string;
   private currentFields: any[];
   private workingField: FieldData<any> = new FieldData({ order: 0 });
   private envelope: Envelope = null;
@@ -46,6 +46,7 @@ export class EnvelopeService {
   public toggleNextSubject = new BehaviorSubject<boolean>(false);
 
   constructor(
+    private injector: Injector,
     private httpClient: HttpClient,
     private validatorService: ValidatorService,
     private tokenObjectService: VerdocsTokenObjectService,
@@ -54,6 +55,9 @@ export class EnvelopeService {
     private dialog: MatDialog,
     @Inject(PLATFORM_ID) private platform
   ) {
+    this.viewConfig = this.injector.get(viewConfiguration);
+    this.backendUrl = this.viewConfig.rForm_backend_url;
+    this.envUrl = `${this.viewConfig.rForm_frontend_url}/envelopes`;
   }
 
   public setCurrentEnvelope(id) {
@@ -417,7 +421,7 @@ export class EnvelopeService {
 
   submitEnvelope(envId: string, roleName: string): Observable<IRecipient> {
     return this.httpClient.put(
-      environment.backend + `/envelopes/${envId}/recipients/${roleName}`,
+      this.backendUrl + `/envelopes/${envId}/recipients/${roleName}`,
       { action: 'submit' }
     ).pipe(
       map((res: IRecipient) => {
@@ -428,7 +432,7 @@ export class EnvelopeService {
 
   declineEnvelope(envId: string, roleName: string): Observable<IRecipient> {
     return this.httpClient.put(
-      environment.backend + `/envelopes/${envId}/recipients/${roleName}`,
+      this.backendUrl + `/envelopes/${envId}/recipients/${roleName}`,
       { action: 'decline' }
     ).pipe(
       map((res: IRecipient) => {
@@ -443,7 +447,7 @@ export class EnvelopeService {
     if (file) {
       const formdata = new FormData();
       formdata.append('document', file, file.name);
-      req = new HttpRequest('PUT', environment.backend + '/envelopes/' + envelopeId +
+      req = new HttpRequest('PUT', this.backendUrl + '/envelopes/' + envelopeId +
         '/fields/' + fieldName, formdata, {
         reportProgress: true
       })
@@ -455,7 +459,7 @@ export class EnvelopeService {
 
   downloadAttachment(field) {
     const header = new HttpHeaders().set('content-type', field.settings.type);
-    return this.httpClient.get(environment.backend + '/envelopes/' + field.envelope_id +
+    return this.httpClient.get(this.backendUrl + '/envelopes/' + field.envelope_id +
       '/fields/' + field.name + '/document', { headers: header, responseType: 'blob' })
       .pipe(
         map(file => {

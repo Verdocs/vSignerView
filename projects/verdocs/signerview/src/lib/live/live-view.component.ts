@@ -23,23 +23,21 @@ import { Subscription } from 'rxjs';
 import { VerdocsStateService, VerdocsTokenObjectService } from '@verdocs/tokens';
 import { readFile } from 'fs';
 
-import { HeaderService } from 'app/core/services/header.service';
-import { RouterService } from 'app/core/services/router.service';
-import { TemplatesService } from 'app/core/services/templates.service';
-import { BuilderDataService } from 'app/core/services/builder-data.service';
-import { EnvelopeService } from 'app/core/services/envelope.service';
-import { EnvelopeViewService } from 'app/core/services/envelope-view.service';
-import { PageService } from 'app/core/services/page.service';
-import { CreateEnvelopeService, FixedDialogRef } from 'app/shared/components/create-envelope';
-import { Broadcast } from 'app/core/services/broadcast';
-import { getRGBA, getRGB } from 'app/core/functions/rgb';
-import { blobToBase64 } from 'app/core/functions/conversion';
-import { printPdfUrl } from 'app/core/functions/utils';
+import { HeaderService } from '../services/header.service';
+import { RouterService } from '../services/router.service';
+import { TemplatesService } from '../services/templates.service';
+import { BuilderDataService } from '../services/builder-data.service';
+import { EnvelopeService } from '../services/envelope.service';
+import { EnvelopeViewService } from '../services/envelope-view.service';
+import { PageService } from '../services/page.service';
+import { CreateEnvelopeService, FixedDialogRef } from '../modules/shared/components/create-envelope';
+import { Broadcast } from '../services/broadcast';
+import { getRGBA, getRGB } from '../functions/rgb';
+import { blobToBase64 } from '../functions/conversion';
+import { printPdfUrl } from '../functions/utils';
 
-import { EnvelopeInviteComponent } from 'app/shared/dialogs/envelope-invite/envelope-invite.component';
-import { EmailValidator } from 'app/core/validators/email.validator';
-
-import { environment } from '../../../../environments/environment';
+import { EnvelopeInviteComponent } from '../modules/shared/dialogs/envelope-invite/envelope-invite.component';
+import { EmailValidator } from '../validators/email.validator';
 
 @Component({
   selector: 'app-live-view',
@@ -141,7 +139,7 @@ export class LiveViewComponent implements OnInit, OnDestroy, AfterViewChecked {
           const thumbnail = await this.templateService.getTemplateThumbnail(this.templateId, this.template.template_documents[0].id);
           const base64Image: string = await this.blobToBasee64(thumbnail);
           this.pageService.setDescriptionMeta(this.template['description']);
-          this.pageService.setCanonicalUrl({ rel: 'canonical'});
+          this.pageService.setCanonicalUrl({ rel: 'canonical' });
           this.updateMetaTags(this.template, base64Image);
           const templateDoc = await this.builderDataService.getTemplateDocument(this.templateId);
           const templateDocumentPdf = await this.builderDataService.getTemplateDocumentFile(this.templateId, templateDoc);
@@ -180,7 +178,7 @@ export class LiveViewComponent implements OnInit, OnDestroy, AfterViewChecked {
           this.pageService.setTitleAndRecord(`${this.template.template_name} - Create`, 'document-create');
           this.resetTemplateName();
           this.templateOwnerInfo = template['owner_info'];
-          
+
           // this.sender_name = this.templateOwnerInfo['name'];
           this.prepareRoles(template);
           const templateDoc = await this.builderDataService.getTemplateDocument(params['templateId']);
@@ -192,7 +190,7 @@ export class LiveViewComponent implements OnInit, OnDestroy, AfterViewChecked {
           const thumbnail = await this.templateService.getTemplateThumbnail(this.templateId, templateDoc.id);
           const base64Image: string = await this.blobToBasee64(thumbnail);
           this.pageService.setDescriptionMeta(this.template['description']);
-          this.pageService.setCanonicalUrl({ rel: 'canonical'});
+          this.pageService.setCanonicalUrl({ rel: 'canonical' });
           this.updateMetaTags(this.template, base64Image);
           this.prepareFields();
           this.openCreateEnvelopDialog(this.template);
@@ -222,7 +220,7 @@ export class LiveViewComponent implements OnInit, OnDestroy, AfterViewChecked {
       document.documentElement.style.setProperty('--vh', `${vh}px`);
     }
   }
-  
+
   updateMetaTags(template, image) {
     const title = 'Verdocs - ' + template.name;
     const description = this.template['description'] || 'Sign up for free and start transitioning your business to a full digital ecosystem.';
