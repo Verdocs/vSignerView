@@ -1,0 +1,45 @@
+h3 {
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.live-url {
+  &--container {
+    background-color: #fff;
+    padding: 24px;
+    width: 800px;
+    max-width: 100%;
+
+    input {
+      margin-top: 20px;
+      min-width: 200px;
+      width: 100%;
+      border-style: solid;
+      border-color: #D8D8D8;
+      line-height: 24px;
+      font-size: 18px;
+    }
+  }
+
+  &--footer {
+    padding: 8px;
+    text-align: right;
+
+    button.mat-button {
+      background-color: transparent;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #213d59;
+    }
+  }
+}
+
+input::selection {
+  background: #213d59;
+  color: #D8D8D8;
+}
+
+input::-moz-selection {
+  background: #213d59;
+  color: #D8D8D8;
+}

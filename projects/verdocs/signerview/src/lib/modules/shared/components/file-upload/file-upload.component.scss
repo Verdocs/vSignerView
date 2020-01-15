@@ -1,0 +1,46 @@
+.file-upload {
+  &__container {
+    padding: 66px 18px;
+    width: 100%;
+    background-color: #F5F5F5;
+    padding-top: 44px;
+    border: 2px dashed #979797;
+    min-height: 360px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.54);
+    max-width: 960px;
+    margin: 0 auto;
+
+    &.deviceScreen {
+      display: table;
+      height: calc(100vh - 56px);
+
+      @media only screen and (min-width: 600px) {
+        height: calc(100vh - 64px);
+      }
+    }
+  }
+
+  &__icon {
+    font-size: 72px;
+    width: 72px;
+  }
+
+  &__instruction {
+    margin-bottom: 30px;
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  &__optional {
+    margin-bottom: 30px;
+    font-size: 14px;
+    line-height: 24px;
+  }
+
+  &__button {
+    height: 48px;
+    line-height: 48px;
+    background-color: rgba(0, 0, 0, 0.08);
+  }
+}

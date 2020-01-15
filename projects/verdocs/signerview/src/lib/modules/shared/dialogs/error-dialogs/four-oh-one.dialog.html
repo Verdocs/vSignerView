@@ -1,0 +1,13 @@
+<div class="error__container">
+  <div class="error__title">
+    {{error_title}}
+  </div>
+  <div class="error__body" *ngIf="error_message">
+    {{error_message}}
+  </div>
+  <div class="error__action">
+    <button class="error__action-button left" mat-button *ngIf="currentProfile" (click)="goToDashboard()">go to dashboard</button>
+    <button class="error__action-button left" mat-button *ngIf="!currentProfile" (click)="signUp()">sign up</button>
+    <button class="error__action-button" mat-button (click)="signIn()">sign in</button>
+  </div>
+</div>

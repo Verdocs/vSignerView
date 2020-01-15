@@ -4,14 +4,14 @@ import { RouterModule } from '@angular/router'
 import { HttpClientModule, HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { VerdocsRequestInterceptor, VerdocsResponseInterceptor, VerdocsErrorInterceptor } from '@verdocs/tokens';
-import { CustomMaterialModule } from '../../custom-material.module';
+import { CustomMaterialModule } from './custom-material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { ViewsRouteModule } from './views-routing.module';
-import { SharedModule } from '../../shared/shared.module';
-import { RAngularModule } from '../../core/components/header/rangular/rangular.module';
-import { DirectivesModule } from '../../shared/directives/directives.modules';
-import { FileUploadModule } from 'app/shared/components/file-upload/file-upload.component.module';
+import { SharedModule } from './modules/shared/shared.module';
+import { RAngularModule } from './modules/rangular/rangular.module';
+import { DirectivesModule } from './modules/shared/directives/directives.modules';
+import { FileUploadModule } from './modules/shared/components/file-upload/file-upload.component.module';
 
 import { PdfViewerModule } from '@verdocs/pdf-viewer';
 
@@ -28,9 +28,9 @@ import { DeclineEnvelopeDialogComponent } from './dialogs/decline/envelope-decli
 import { EnvelopeSignatureDialogComponent } from './dialogs/signature/envelope-signature.dialog';
 import { AttachmentsComponent } from './dialogs/attachments/attachments.component';
 import { AttachmentsDialogComponent } from './dialogs/attachments/attachments.dialog';
-import { PaymentDialogComponent } from './dialogs/payments/payment.dialog';
+import { PaymentDialog } from './dialogs/payments/payment.dialog';
 import { ErrorDialogComponent } from './dialogs/error-dialog/error-dialog.component';
-import { EnvelopeFieldsLiteModule } from '../../shared/components/envelope-fields/envelope-fields-lite.module';
+import { EnvelopeFieldsLiteModule } from './modules/shared/components/envelope-fields/envelope-fields-lite.module';
 import { EventTrackerModule } from '@verdocs/event-tracker';
 
 @NgModule({
@@ -66,7 +66,7 @@ import { EventTrackerModule } from '@verdocs/event-tracker';
     DeclineEnvelopeDialogComponent,
     EnvelopeSignatureDialogComponent,
     AttachmentsDialogComponent,
-    PaymentDialogComponent,
+    PaymentDialog,
     ErrorDialogComponent
   ],
   providers: [
@@ -97,7 +97,7 @@ import { EventTrackerModule } from '@verdocs/event-tracker';
     DeclineEnvelopeDialogComponent,
     EnvelopeSignatureDialogComponent,
     AttachmentsDialogComponent,
-    PaymentDialogComponent,
+    PaymentDialog,
     EnvelopeDelegateComponent
   ]
 })

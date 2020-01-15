@@ -1,0 +1,91 @@
+<div class="envelope-fields__container" #itemContainer [formGroup]="envelopeFieldsFormGroup" *ngIf="_fields && envelopeFieldsFormGroup && fields && fieldsMap">
+  <div class="envelope-fields__element" #itemWrapper *ngFor="let field of _fields[pageNum]; let i = index"
+    [ngClass]="{radio: !!field && field?.controlType === 'radio_button_group', notSelected: !!selectedRoleName && selectedRoleName !== field.recipientRole}"
+    [ngSwitch]="field?.controlType" [attr.data-page]="pageNum" [attr.data-index]="i">
+    <div class="envelope__signature" *ngSwitchCase="'signature'" [ngClass]="{focused: isFocused(pageNum, i)}">
+      <button class="envelope__field" [tabIndex]="_fields[pageNum][i]['recipientRole']!==roleName ? -1 : 1"
+        [ngStyle]="_fields[pageNum][i]['initialStyle']" [ngClass]="{'envelope__field--hide': isSigned(pageNum, i)}"
+        [value]="_fields[pageNum][i]['value']" [disabled]="_fields[pageNum][i]['recipientRole']!==roleName"
+        [id]="_fields[pageNum][i]['key']"> Signature </button>
+      <div class="envelope__signature-frame" *ngIf="isSigned(pageNum, i)">
+        <img width="100%" height="100%" [src]="signatureFile" />
+      </div>
+    </div>
+    <div class="envelope__initial" *ngSwitchCase="'initial'" [ngClass]="{focused: isFocused(pageNum, i)}">
+      <button class="envelope__field" [tabIndex]="_fields[pageNum][i]['recipientRole']!==roleName ? -1 : 1"
+        [ngStyle]="_fields[pageNum][i]['initialStyle']" [ngClass]="{'envelope__field--hide': isInitialed(pageNum, i)}"
+        [value]="_fields[pageNum][i]['value']"
+        [disabled]="_fields[pageNum][i]['recipientRole']!==roleName || _fields[pageNum][i]?.prepared"
+        [id]="_fields[pageNum][i]['key']"> Initial
+      </button>
+      <div class="envelope__initial-frame" *ngIf="isInitialed(pageNum, i)">
+        <img width="100%" height="100%" [src]="initialFile" />
+      </div>
+    </div>
+    <div class="envelope__attachment" *ngSwitchCase="'attachment'" [ngClass]="{focused: isFocused(pageNum, i)}">
+      <button class="envelope__field" [tabIndex]="_fields[pageNum][i]['recipientRole']!==roleName ? -1 : 1"
+        [ngStyle]="_fields[pageNum][i]['initialStyle']" [ngClass]="{'envelope__field--hide': isInitialed(pageNum, i)}"
+        [disabled]="_fields[pageNum][i]['recipientRole']!==roleName" [id]="_fields[pageNum][i]['key']">
+        <mat-icon>attachment</mat-icon>
+      </button>
+    </div>
+    <div class="envelope__payment" *ngSwitchCase="'payment'" [ngClass]="{focused: isFocused(pageNum, i)}">
+      <button class="envelope_field" [tabIndex]="_fields[pageNum][i]['recipientRole']!==roleName ? -1 : 1"
+        [ngStyle]="_fields[pageNum][i]['initialStyle']" [ngClass]="{'envelope__field--hide': isInitialed(pageNum, i)}"
+        [value]="_fields[pageNum][i]['value']" [disabled]="_fields[pageNum][i]['recipientRole']!==roleName"
+        [id]="_fields[pageNum][i]['key']">
+        <mat-icon>attach_money</mat-icon>
+      </button>
+    </div>
+    <div class="envelope__textbox" *ngSwitchCase="'textbox'" [ngClass]="{focused: isFocused(pageNum, i)}">
+      <input *ngIf="!isTextarea(fields[pageNum][i])" class="envelope__field input"
+        [ngStyle]="_fields[pageNum][i]['initialStyle']" [tabIndex]="getTabIndex(pageNum, i)"
+        [formControlName]="field['key']" [value]="field['value']" [id]="_fields[pageNum][i]['key']">
+      <textarea *ngIf="isTextarea(fields[pageNum][i])" class="envelope__field textarea"
+        [ngStyle]="_fields[pageNum][i]['initialStyle']" [tabIndex]="getTabIndex(pageNum, i)"
+        [formControlName]="field['key']" [value]="field['value']" [id]="_fields[pageNum][i]['key']"></textarea>
+    </div>
+    <div class="envelope__textbox" *ngSwitchCase="'placeholder'">
+      <input class="envelope__field" [ngStyle]="_fields[pageNum][i]['initialStyle']"
+        [value]="_fields[pageNum][i]['value']" readonly>
+    </div>
+    <div class="envelope__checkbox" *ngSwitchCase="'checkbox_group'" [ngClass]="{focused: isFocused(pageNum, i)}">
+      <input class="envelope__field envelope__field-checkbox" type="checkbox" #checkboxGroupInput
+        [ngStyle]="_fields[pageNum][i]['initialStyle']" [formControlName]="_fields[pageNum][i]['key']"
+        [checked]="_fields[pageNum][i]['value']" tabindex="-1">
+      <label for="{{_fields[pageNum][i].key}}" [ngStyle]="_fields[pageNum][i]['checkboxStyle']"
+        [tabIndex]="getTabIndex(pageNum, i)"
+        [ngClass]="{prepared: _fields[pageNum][i]['prepared'] && mode !== 'prepareview' }"
+        (click)="preventDefault($event);"
+        [id]="_fields[pageNum][i]['key']"></label>
+    </div>
+    <div class="envelope__dropdown" *ngSwitchCase="'dropdown'" [ngClass]="{focused: isFocused(pageNum, i)}">
+      <select class="envelope__field envelope__field-dropdown" [tabIndex]="getTabIndex(pageNum, i)"
+        [ngStyle]="_fields[pageNum][i]['initialStyle']" [formControlName]="_fields[pageNum][i]['key']">
+        <option [value]="null">Select...</option>
+        <option *ngFor="let option of field.options; trackBy: optionTracking" [ngValue]="option.value">{{option.value}}
+        </option>
+      </select>
+    </div>
+    <div class="envelope__radio_button" *ngSwitchCase="'radio_button_group'"
+      [ngClass]="{focused: isFocused(pageNum, i)}">
+      <input class="envelope__field envelope__field-radio" type="radio" #radioInput
+        [ngStyle]="_fields[pageNum][i]['initialStyle']" [formControlName]="_fields[pageNum][i]['key']"
+        [checked]="_fields[pageNum][i]['value']" tabindex="-1">
+      <label for="{{_fields[pageNum][i].key}}" [ngStyle]="_fields[pageNum][i]['checkboxStyle']"
+        [tabIndex]="getTabIndex(pageNum, i)"
+        [ngClass]="{prepared: _fields[pageNum][i]['prepared'] && mode !== 'prepareview' }"
+        (click)="preventDefault($event);"
+        [id]="_fields[pageNum][i]['key']"></label>
+    </div>
+    <div class="envelope__timestamp" *ngSwitchCase="'timestamp'">
+      <input class="envelope__field" [ngStyle]="_fields[pageNum][i]['initialStyle']" [value]="today" disabled>
+    </div>
+    <div class="envelope__date" *ngSwitchCase="'date'" [ngClass]="{focused: isFocused(pageNum, i)}">
+      <input class="calendar" [matDatepicker]="calendarDate" placeholder="Select Date"
+        [formControlName]="_fields[pageNum][i]['key']" [ngStyle]="_fields[pageNum][i]['initialStyle']"
+        [tabIndex]="getTabIndex(pageNum, i)" [id]="_fields[pageNum][i]['key']">
+      <mat-datepicker #calendarDate></mat-datepicker>
+    </div>
+  </div>
+</div>

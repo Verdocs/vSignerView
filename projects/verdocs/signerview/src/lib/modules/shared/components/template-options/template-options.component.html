@@ -1,0 +1,56 @@
+<button mat-icon-button [matMenuTriggerFor]="options">
+  <mat-icon>more_vert</mat-icon>
+</button>
+
+<mat-menu #options="matMenu">
+  <div matTooltip="{{!canSendEnvelope? getTooltipMessage('send'): ''}}">
+    <button mat-menu-item [disabled]="!canSendEnvelope" (click)="toggleInvite()">
+      <mat-icon>drafts</mat-icon>
+      <span>Create Verdoc</span>
+    </button>
+  </div>
+  <div matTooltip="{{!(canSendEnvelope && canHaveLiveView)? getTooltipMessage('liveView'): ''}}">
+    <button mat-menu-item [disabled]="!(canSendEnvelope && canHaveLiveView)"
+      (subscription-guard)="liveViewClipboard($event)" [type]="'live-link'">
+      <mat-icon>share</mat-icon>
+      <span>Create Link</span>
+    </button>
+  </div>
+  <div matTooltip="{{!(canSendEnvelope && canSignNow)? getTooltipMessage('signNow'): ''}}">
+    <button mat-menu-item [disabled]="!(canSendEnvelope && canSignNow)" (click)="signNow()" 
+      [VerdocsEventTracker]="{action: 'sign now clicked', category: 'verdoc create', label: 'document options menu' }">
+      <mat-icon>gesture</mat-icon>
+      <span>Sign Now</span>
+    </button>
+  </div>
+  <hr>
+  <button mat-menu-item (click)="gotoEnvelope()">
+    <mat-icon>view_list</mat-icon>
+    <span>Submitted Data</span>
+  </button>
+  <hr>
+  <div matTooltip="{{!(canPreview)? getTooltipMessage('preview'): ''}}">
+    <button mat-menu-item [disabled]="!(canPreview)" (click)="gotoPreview()">
+      <mat-icon>description</mat-icon>
+      <span>Preview</span>
+    </button>
+  </div>
+  <div matTooltip="{{!(canPreview)? getTooltipMessage('preview'): ''}}">
+    <button mat-menu-item [disabled]="!(canPreview)" (click)="previewClipboard()">
+      <mat-icon>link</mat-icon>
+      <span>Link</span>
+    </button>
+  </div>
+  <div matTooltip="{{!canEdit? getTooltipMessage('edit'): ''}}">
+    <button mat-menu-item *ngIf="!isBuilderView" [disabled]="!canEdit" (click)="editTemplate()">
+      <mat-icon>build</mat-icon>
+      <span>Edit</span>
+    </button>
+  </div>
+  <div matTooltip="{{!canDelete? getTooltipMessage('delete'): ''}}">
+    <button mat-menu-item [disabled]="!canDelete" (click)="deleteTemplate()">
+      <mat-icon>delete</mat-icon>
+      <span>Remove</span>
+    </button>
+  </div>
+</mat-menu>

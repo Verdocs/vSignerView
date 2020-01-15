@@ -1,0 +1,34 @@
+.error {
+  &__container {
+    padding-top: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+    max-width: 640px;
+  }
+  &__title {
+    padding: 16px 16px 8px;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, .87);
+  }
+  &__body {
+    padding: 16px 16px 8px;
+    font-size: 16px;
+    line-height: 24px;
+    color: rgba(0, 0, 0, .54);
+  }
+  &__action {
+    padding: 8px;
+    text-align: right;
+
+    &-button {
+      color: #37474F;
+      text-transform: uppercase;
+
+      &.left {
+        margin-right: 8px;
+      }
+    }
+  }
+}

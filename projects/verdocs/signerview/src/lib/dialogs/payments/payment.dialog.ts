@@ -3,23 +3,21 @@ import {
   OnInit,
   AfterContentInit,
   OnDestroy,
-  ViewChild,
-  ElementRef,
   ChangeDetectorRef
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { environment } from '../../../../../environments/environment';
 
-import { EnvelopeService } from 'app/core/services/envelope.service';
-import { SnackbarService } from 'app/core/services/snackbar.service';
+import { EnvelopeService } from '../../services/envelope.service';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-stripe-dialog',
   templateUrl: './payment.dialog.html',
   styleUrls: ['./payment.dialog.scss']
 })
-export class PaymentDialogComponent implements OnInit, AfterContentInit, OnDestroy {
+export class PaymentDialog implements OnInit, AfterContentInit, OnDestroy {
 
   public cardNumber: any;
   public cardExpiry: any;
@@ -40,7 +38,7 @@ export class PaymentDialogComponent implements OnInit, AfterContentInit, OnDestr
     private fb: FormBuilder,
     private envelopeService: EnvelopeService,
     private snackbarService: SnackbarService,
-    private dialog: MatDialogRef<PaymentDialogComponent>,
+    private dialog: MatDialogRef<PaymentDialog>,
     private cdr: ChangeDetectorRef
   ) { }
 
@@ -160,16 +158,16 @@ export class PaymentDialogComponent implements OnInit, AfterContentInit, OnDestr
       const address = this.stripeForm.get('address').value;
       const city = this.stripeForm.get('city').value;
       const state = this.stripeForm.get('state').value;
-      const {token, error} = await this.stripe
-      .createToken(this.cardNumber, {
-        address_line1: address,
-        address_city: city,
-        address_state: state
-      })
+      const { token, error } = await this.stripe
+        .createToken(this.cardNumber, {
+          address_line1: address,
+          address_city: city,
+          address_state: state
+        })
       if (error) {
         this.snackbarService.open('Processing error: ' + error.message, 'OK');
       } else {
-        this.dialog.close({token_id: token.id});
+        this.dialog.close({ token_id: token.id });
       }
     }
   }

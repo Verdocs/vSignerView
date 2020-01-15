@@ -26,20 +26,20 @@ import { find, findIndex } from 'lodash';
 
 import { EnvelopeSignatureDialogComponent } from '../dialogs/signature/envelope-signature.dialog';
 import { AttachmentsDialogComponent } from '../dialogs/attachments/attachments.dialog';
-import { PaymentDialogComponent } from '../dialogs/payments/payment.dialog';
+import { PaymentDialog } from '../dialogs/payments/payment.dialog';
 
-import { DynamicField } from 'app/core/models/dynamic-field.model';
+import { DynamicField } from '../models/dynamic-field.model';
 
-import { EnvelopeService } from 'app/core/services/envelope.service';
-import { EnvelopeViewService } from 'app/core/services/envelope-view.service';
-import { ErrorTooltipService } from 'app/core/services/errorTooltip.service';
-import { SignatureService } from 'app/core/services/envelope-signature.service';
-import { SnackbarService } from 'app/core/services/snackbar.service';
-import { ValidatorService } from 'app/core/services/validator.service';
-import { BrowserToiTextService } from 'app/core/services/browser-to-iText.service';
-import { RequiredFieldsService } from 'app/core/services/required-fields.service';
-import { Broadcast } from 'app/core/services/broadcast';
-import { updateElementStyles } from 'app/core/functions/viewer-fields';
+import { EnvelopeService } from '../services/envelope.service';
+import { EnvelopeViewService } from '../services/envelope-view.service';
+import { ErrorTooltipService } from '../services/errorTooltip.service';
+import { SignatureService } from '../services/envelope-signature.service';
+import { SnackbarService } from '../services/snackbar.service';
+import { ValidatorService } from '../services/validator.service';
+import { BrowserToiTextService } from '../services/browser-to-iText.service';
+import { RequiredFieldsService } from '../services/required-fields.service';
+import { Broadcast } from '../services/broadcast';
+import { updateElementStyles } from '../functions/viewer-fields';
 
 @Component({
   selector: 'envelope-field',
@@ -224,7 +224,7 @@ export class EnvelopeField implements AfterViewInit, OnInit, OnChanges, OnDestro
   }
 
   isInactive(pageNum, j) {
-    return this._fields[pageNum][j]['recipientRole']!== this.roleName && !this._fields[pageNum][j]['prepared'];
+    return this._fields[pageNum][j]['recipientRole'] !== this.roleName && !this._fields[pageNum][j]['prepared'];
   }
 
   focusElement(coordinate) {
@@ -393,7 +393,7 @@ export class EnvelopeField implements AfterViewInit, OnInit, OnChanges, OnDestro
               default:
                 break;
             }
-            const roleObject = find(this.recipients, {role_name: field[role]});
+            const roleObject = find(this.recipients, { role_name: field[role] });
             const fieldValues = new DynamicField({
               key: field.name + keyNameSuffix,
               value: field[setting]['result'] || '',
@@ -1323,7 +1323,7 @@ export class EnvelopeField implements AfterViewInit, OnInit, OnChanges, OnDestro
     const field = { ...this._fields[pNum][j] };
     if (field && !this.fields[pNum][j]['settings']['payment_id'] && !field.value) {
       this.signatureService.setWorkingPayment(this._fields[pNum][j]);
-      const paymentDialog = this.dialog.open(PaymentDialogComponent, {
+      const paymentDialog = this.dialog.open(PaymentDialog, {
         panelClass: 'payment__dialog'
       });
       paymentDialog.componentInstance.paymentField = this.fields[pNum][j];

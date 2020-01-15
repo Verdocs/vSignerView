@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, CanActivate } from '@angular/router';
 
-import { AuthGuardService } from '../../core/services/auth-guard.service'
+import { AuthGuardService } from './services/auth-guard.service'
 
 import { ViewsComponent } from './views.component';
 import { LiveViewComponent } from './live/live-view.component';
 import { EnvelopeTokenComponent } from './signer/envelope-token.component';
 import { EnvelopeViewComponent } from './signer/envelope-view.component';
-import { FourHundredComponent } from '../../shared/components/error-pages/400.component';
+import { FourHundredComponent } from './modules/shared/components/error-pages/400.component';
 
 const routes: Routes = [
   {

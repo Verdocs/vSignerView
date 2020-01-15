@@ -1,0 +1,21 @@
+<div class="preview-link__container">
+  <div class="preview-link__title">
+    {{mode === 'previewlink' ? 'Get preview link' : 'Get create link'}}
+  </div>
+  <div class="preview-link__body">
+    <p class="preview-link__description" *ngIf="mode === 'previewlink'">Document Visibility: {{template_visibility}}</p>
+    <p class="preview-link__description">{{visibility_helper_message}}</p>
+    <div class="preview-link__input-container">
+      <div class="preview-link__input-wrapper">
+        <input class="preview-link__input-element" #previewUrlInput value="{{previewUrl}}" readonly>
+      </div>
+      <div class="preview-link__input-button" (click)="copy(previewUrlInput)">
+        Copy
+      </div>
+    </div>
+  </div>
+  <div class="preview-link__footer" [ngClass]="{livelink: mode === 'livelink'}">
+    <button class="preview-link__footer-button" mat-button *ngIf="mode === 'previewlink'" (click)="editVisibility()">edit visibility</button>
+    <button class="preview-link__footer-button" mat-button (click)="close()">close</button>
+  </div>
+</div>

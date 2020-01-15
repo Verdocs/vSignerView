@@ -1,0 +1,10 @@
+<div class="payment-dialog__container">
+  <div class="payment-dialog__title"><mat-icon class="payment-dialog__icon">warning</mat-icon>Payment Account Missing</div>
+  <div class="payment-dialog__message">
+      Payment account is required before adding a money attachment field.
+  </div>
+  <div class="payment-dialog__action">
+    <button class="payment-dialog__button" mat-button (click)="close()">not now</button>
+    <button class="payment-dialog__button" mat-button (click)="connectNewAccount()">add account</button>
+  </div>
+</div>

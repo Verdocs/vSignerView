@@ -1,0 +1,33 @@
+.payment-dialog {
+  &__title {
+    display: flex;
+    align-content: center;
+    padding: 16px;
+    font-size: 24px;
+    line-height: 24px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.87);
+  }
+
+  &__message {
+    padding: 0 16px 16px;
+    font-size: 16px;
+    line-height: 24px;
+    color: rgba(0, 0, 0, 0.54);
+  }
+
+  &__action {
+    padding-top: 8px;
+    text-align: right;
+  }
+
+  &__icon {
+    margin-right: 8px;
+    color: #FFC107;
+  }
+
+  &__button {
+    color: #37474f;
+    text-transform: uppercase;
+  }
+}

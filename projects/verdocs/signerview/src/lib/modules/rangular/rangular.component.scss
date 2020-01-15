@@ -1,0 +1,197 @@
+@import '../../../../../global';
+
+.realster {
+  &__wrapper {
+    height: 64px;
+    flex-direction: row;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    @media only screen and (max-width: 600px) {
+      height: 56px;
+    }
+  }
+
+  &__notification {
+    margin-top: 0;
+    line-height: 64px;
+
+    @media only screen and (max-width: 600px) {
+      line-height: 56px;
+    }
+    @media only screen and (max-width: 854px) {
+      display: none;
+    }
+  }
+
+  &__chat {
+    line-height: 64px;
+    margin-right: 7px;
+
+    button {
+      height: 40px;
+      min-width: 40px;
+    }
+
+    @media only screen and (max-width: 854px) {
+      display: none;
+    }
+  }
+
+  &__help {
+    line-height: 64px;
+    margin-right: 7px;
+
+    button {
+      height: 40px;
+      min-width: 40px;
+    }
+
+    @media only screen and (max-width: 854px) {
+      display: none;
+    }
+  }
+
+  &__app {
+    line-height: 64px;
+
+    &-button {
+      padding: 0;
+      height: 48px;
+      min-width: 48px;
+      border-radius: 24px;
+    }
+
+    &.header {
+      @media only screen and (max-width: 854px) {
+        &.default {
+          display: none;
+        }
+      }
+    }
+
+    &.sidenav {
+      margin-right: 4px;
+
+      @media only screen and (min-width: 855px) {
+        display: none;
+      }
+    }
+
+    @media only screen and (max-width: 600px) {
+      line-height: 56px;
+    }
+  }
+
+  &__account {
+    display: flex;
+    align-items: center;
+
+    &-button {
+      background-color: $icon-background-gray;
+      color: #FFF;
+    }
+
+    &.header {
+      @media only screen and (max-width: 854px) {
+        &.default {
+          display: none;
+        }
+      }
+    }
+
+    &.sidenav {
+      @media only screen and (min-width: 855px) {
+        display: none;
+      }
+    }
+  }
+
+  &__notification,
+  &__app,
+  &__account,
+  &__chat {
+    float: left;
+  }
+
+  &__signin {
+    &-button {
+      border-radius: 2px;
+      height: 36px;
+      border: 0.5px solid #979797;
+      background-color: #FFF;
+      color: #37474F;
+      text-transform: uppercase;
+      // box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.12), 0 0 2px 0 rgba(0, 0, 0, 0.14);
+    }
+  }
+}
+
+.menu {
+  &__container {
+    width: 320px;
+    height: 248px;
+
+    .mat-menu-content {
+      padding: 0;
+    }
+
+    &.mat-menu-panel {
+      padding: 8px;
+    }
+  }
+
+  &__item {
+    padding: 0 !important;
+    margin-bottom: 8px !important;
+    border: none;
+    min-width: 64px !important;
+    border-radius: 50% !important;
+
+    &-wrapper {
+      padding: 12px;
+      float: left;
+      text-align: center;
+
+      &.my-account {
+        padding-left: 6.5px;
+        padding-right: 6.5px;
+      }
+    }
+
+    img {
+      vertical-align: middle;
+    }
+  }
+
+  &__icon {
+    width: 40px;
+
+    &.rForm {
+      width: 30px;
+    }
+  }
+
+  &__background {
+    background-color: #495057;
+    width: 64px;
+    height: 64px;
+    line-height: 64px;
+    border-radius: 50%;
+  }
+
+  &__title {
+    font-size: 14px;
+    text-align: center;
+    line-height: 20px;
+  }
+
+  &__account {
+    &-container {
+      width: 270px;
+      height: 228px;
+    }
+  }
+}

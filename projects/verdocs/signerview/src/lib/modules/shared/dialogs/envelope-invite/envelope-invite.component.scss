@@ -1,0 +1,285 @@
+@import '../../../../global.scss';
+
+$border-bottom-color: #D8D8D8;
+$dark-blue: #213d59;
+$light-blue: #1FA2FF;
+$menu-button-color: #006ad9;
+$menu-item-color: #DAF0FF;
+$grey-font-color: #A8A8A8;
+$large-font-size: 1.125em;
+$normal-font-size: 14px;
+
+#template-invite {
+  @media only screen and (max-width: 736px) {
+    padding: 0;
+    overflow: hidden;
+  }
+
+  @media only screen and (max-device-width: 1199px) and (orientation: portrait) {
+    padding: 0;
+    overflow: hidden;
+  }
+}
+
+.invite {
+  &__header {
+    padding: 7px 20px 7px 16px;
+    height: 64px;
+    color: $font-black;
+
+    @media only screen and (max-width: 675px) {
+      padding-left: 8px;
+      box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.24), 0 0 4px 0 rgba(0, 0, 0, 0.12);
+      background-color: $dialog-gray;
+    }
+  }
+
+  &__close {
+    &.mat-button ::ng-deep {
+      position: relative;
+      padding-left: 12px;
+      padding-right: 12px;
+      height: 42px;
+      width: 42px;
+      min-width: 42px;
+      max-width: 42px;
+      background-color: transparent;
+
+      .mat-button-ripple ::ng-deep, .mat-button-focus-overlay ::ng-deep{
+        width: 42px;
+      }
+    }
+  }
+
+  &__subheader {
+    width: 100%;
+
+    @media only screen and (max-width: 675px) {
+      padding-top: 20px;
+    }
+
+    &-title {
+      padding: 0px 20px 0px 20px;
+      font-size: 16px;
+      height: 48px;
+    }
+
+    &-toggle {
+      float: right;
+    }
+  }
+
+  &__body {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    @media only screen and (max-width: 675px) {
+      height: calc(100vh - 132px);
+      &.prepared {
+        height: calc(100vh - 180px);
+      }
+      overflow-y: auto;
+    }
+
+    @media only screen and (max-device-width: 1199px) and (orientation: portrait) {
+      overflow: auto;
+    }
+
+    @media only screen and (min-width: 676px) {
+      max-height: calc(80vh - 164px);
+      &.prepared {
+        height: calc(80vh - 212px);
+      }
+      overflow-y: scroll;
+    }
+  }
+
+  &__title {
+    padding-left: 4px;
+    font-size: 20px;
+    font-weight: 500;
+
+    @media only screen and (max-width: 675px) {
+      padding-left: 22px;
+    }
+  }
+
+  &__send__image:hover {
+    cursor: pointer;
+  }
+
+  &__footer {
+    padding: 8px;
+  }
+
+  &__button {
+    &-wrapper {
+      text-align: right;
+    }
+
+    color: $button-blue;
+    text-transform: uppercase;
+  }
+}
+
+.role {
+  &__container {}
+
+  &__sequence {
+    margin-top: 21px;
+    margin-right: 20px;
+    padding-top: 38px;
+    align-self: flex-start;
+    width: 20%;
+    color: $dark-blue;
+    font-size: $large-font-size;
+    max-width: 20px;
+    text-align: right;
+  }
+
+  &__wrapper {
+    margin-top: 20px;
+    border: 1px solid $dark-blue;
+  }
+
+  &__item__title {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    width: 100%;
+    color: $dark-blue;
+    font-weight: bold;
+    font-size: $normal-font-size;
+    text-align: center;
+    text-transform: capitalize;
+  }
+
+  &__item__input {
+    font-size: $normal-font-size;
+    border-bottom-color: $border-bottom-color;
+    font-size: $normal-font-size;
+
+    &__container {
+
+      &--full-width {
+        width: calc(100% - 40px);
+        margin-left: 20px;
+        margin-bottom: 19px;
+      }
+    }
+  }
+
+  &__item__type {
+    margin-left: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+    width: 105px;
+    text-transform: uppercase;
+    border-bottom: 1px solid $border-bottom-color;
+    font-size: $normal-font-size;
+    display: inline-block;
+
+    span {
+      font-size: 30px;
+      line-height: 10px;
+      float: right;
+    }
+  }
+
+  &__item__check {
+    margin-top: -13px;
+    margin-right: 5px;
+    font-size: 36px;
+  }
+
+  &__item__option {
+    display: inline-block;
+    width: 42px;
+    float:right;
+
+    &__button {
+      color: $border-bottom-color;
+
+      &:hover, &:focus {
+        color: $menu-button-color;
+        cursor: pointer;
+      }
+
+      @media only screen and (min-width: 1200px) {
+        margin-top: 13px;
+      }
+    }
+
+    &__menu {
+      width: 138px;
+      right: 40px;
+      -webkit-box-shadow: 0 1px 3px 0 rgba(181, 181, 181, 0.5);
+      -moz-box-shadow: 0 1px 3px 0 rgba(181, 181, 181, 0.5);
+      box-shadow: 0 1px 3px 0 rgba(181, 181, 181, 0.5);
+
+      &__item {
+        background-color: #FFF;
+        color: $grey-font-color;
+
+        &:hover {
+          background-color: $menu-item-color;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  &__item__delegate, &__item__message {
+    padding: 10px 12px 10px 20px;
+    border-top: 1px solid $border-bottom-color;
+    text-align: center;
+    text-transform: uppercase;
+  }
+}
+
+.message {
+  &__body {
+    border-top: 1px solid $border-bottom-color;
+    padding: 10px 20px;
+  }
+  &__textarea {
+    font-size: $normal-font-size;
+    border-bottom-color: $border-bottom-color;
+    font-size: $normal-font-size;
+
+    &__container--full-width {
+      width: 100%;
+    }
+  }
+}
+
+.close {
+  &__stroke-1, &__stroke-2 {
+    width: 18px;
+    height: 1px;
+    background: #FFF;
+    display: block;
+    position: absolute;
+  }
+  &__stroke-1 {
+    transform: rotate(45deg);
+  }
+  &__stroke-2 {
+    transform: rotate(-45deg);
+  }
+}
+
+.item__close{
+  width: 42px;
+  height: 42px;
+  background-color: transparent;
+
+  .close {
+    &__stroke-1, &__stroke-2 {
+      background: $grey-font-color;
+    }
+  }
+}
+
+.cdk-overlay-pane.fullscreen {
+  width: 100%;
+}

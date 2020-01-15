@@ -1,0 +1,13 @@
+<div class="file-upload__container" fileDragDrop (onFileDrop)="getFile($event)">
+  <input class="file-upload__input" type="file" #fileInput hidden (change)="getFile($event.target.files)" accept="application/pdf">
+  <mat-icon class="file-upload__icon">insert_drive_file</mat-icon>
+  <div class="file-upload__instruction">
+    Drag a file here
+  </div>
+  <div class="file-upload__optional">
+    Or, if you prefer...
+  </div>
+  <div class="file-upload__upload-button-container">
+    <button class="file-upload__button" mat-button (click)="fileInput.click()">Select a file from your computer</button>
+  </div>
+</div>

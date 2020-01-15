@@ -1,0 +1,13 @@
+<div class="live-url--container">
+  <h3>Copy to Clipboard</h3>
+  <div>
+    <input #liveUrlInput value="{{liveUrl}}"  readonly>
+  </div>
+</div>
+<div class="live-url--footer">
+  <button mat-button (click)="close()">close</button>
+  <button mat-button 
+  (click)="copy(liveUrlInput)" 
+  [VerdocsEventTracker]="{'action': 'live link dialog link copied', 'category': 'verdoc create'}"
+  >Copy</button>
+</div>

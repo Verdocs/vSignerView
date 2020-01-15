@@ -1,0 +1,65 @@
+.preview-link {
+  &__container {
+    padding: 8px;
+    max-width: 640px;
+  }
+  &__title {
+    padding: 16px 16px 8px;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+    color: rgba(0, 0, 0, .87);
+  }
+  &__body {
+    padding: 8px 8px;
+  }
+  &__description {
+    padding: 8px;
+    font-size: 16px;
+    line-height: 24px;
+    color: rgba(0, 0, 0, .54);
+  }
+  &__input {
+    &-container {
+      margin: 8px;
+      border: 1px solid #979797;
+      display: flex;
+      width: calc(100% - 16px);
+    }
+    &-wrapper {
+      padding-left: 8px;
+      border-right: 1px solid #979797;
+      width: 100%;
+    }
+    &-element {
+      border: none;
+      color: rgba(0, 0, 0, .54);
+      font-size: 16px;
+      line-height: 38px;
+      width: calc(100%);
+    }
+    &-button {
+      width: 58px;
+      background-color: #d8d8d8;
+      color: rgba(0, 0, 0, .54);
+      text-align: center;
+      line-height: 38px;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    &-button {
+      text-transform: uppercase;
+      color: #37474F
+    }
+
+    &.livelink {
+      justify-content: flex-end;
+    }
+  }
+}

@@ -1,0 +1,42 @@
+@import '../../../../global';
+.discard {
+  &__title {
+    padding: 24px 24px 0;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, .87);
+  }
+  &__body {
+    padding: 24px 24px 40px;
+    color: $font-gray;
+  }
+  &__action {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-right: 8px;
+    text-align: right;
+
+    &-button {
+      color: #3f5894;
+      text-transform: uppercase;
+      &:first-child {
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+::ng-deep {
+  .discard {
+    .mat-dialog-container {
+      padding: 0;
+      width: 80vw;
+      max-width: 680px;
+
+      @media screen and (max-width: 480px) {
+        max-width: 280px;
+      }
+    }
+  }
+}

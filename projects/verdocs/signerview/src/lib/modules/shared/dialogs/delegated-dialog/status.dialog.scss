@@ -1,0 +1,51 @@
+.status-dialog {
+  &__container {
+    width: 100%;
+    max-width: 640px;
+    padding: 8px;
+
+    @media only screen and (max-width: 736px) {
+      width: 280px;
+    }
+  }
+
+  &__title {
+    padding: 16px;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  &__body {
+    &-content {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    &-text {
+      margin-bottom: 16px;
+      font-size: 16px;
+      line-height: 24px;
+      color: rgba(0, 0, 0, .54);
+
+      &:last-child {
+        margin-bottom: 4px;
+      }
+    }
+  }
+  &__footer {
+    padding: 8px;
+    text-align: right;
+    width: 100%;
+    max-width: 640px;
+
+    button {
+      height: 36px;
+      text-transform: uppercase;
+      color: #37474F;
+    }
+    @media only screen and (max-width: 736px) {
+      width: 280px;
+    }
+  }
+}

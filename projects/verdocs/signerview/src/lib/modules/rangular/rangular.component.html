@@ -1,0 +1,17 @@
+<div class="realster__wrapper" *ngIf="hasProfile">
+  <div class="realster__chat">
+    <button mat-icon-button *ngIf="!sidenav" (click)="lunchIntercom()" matTooltip="Live Chat">
+      <mat-icon>forum</mat-icon>
+    </button>
+  </div>
+  <div class="realster__help">
+    <button mat-icon-button *ngIf="!sidenav" (click)="lunchElevio()" matTooltip="Help Center">
+      <mat-icon>help</mat-icon>
+    </button>
+  </div>
+  <div class="realster__account" *ngIf="profiles" [ngClass]="{header: !sidenav, sidenav: sidenav, default: type === 'default'}" matTooltip="My Account">
+  </div>
+</div>
+<div class="realster__wrapper" *ngIf="!hasProfile">
+  <button class="realster__signin-button" mat-button (click)="signIn()">sign in</button>
+</div>

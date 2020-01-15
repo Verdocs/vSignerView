@@ -1,0 +1,222 @@
+<div class="create-envelope__container">
+  <div class="create-envelope__header">
+    <div class="create-envelope__title">
+      <input class="create-envelope__title-input" [(ngModel)]="templateName" matTooltip="Rename"
+        [matTooltipPosition]="'below'" (focus)="$event.target.readOnly = (!!currentProfile || _templateSource === 'liveview' ? false : true);"
+        (keydown.enter)="$event.target.blur();" (blur)="$event.target.readOnly = true; $event.target.scrollLeft = 0;"
+        [readOnly]="!currentProfile || _templateSource !== 'liveview'">
+    </div>
+    <div class="create-envelope__header-buttons">
+      <div class="create-envelope__live-link"
+        matTooltip="{{!(canSendEnvelope && canHaveLiveView)? getTooltipMessage('liveView'): ''}}">
+        <button class="create-envelope__live-link-button" mat-icon-button
+          [disabled]="!(canSendEnvelope && canHaveLiveView)" (subscription-guard)="liveViewClipboard($event)"
+          [type]="'live-link'"
+          [VerdocsEventTracker]="{'action': 'live link dialog opened', 'category': 'verdoc create', label: 'create verdoc dialog'}"
+          >
+          <mat-icon>share</mat-icon>
+        </button>
+      </div>
+      <button class="create-envelope__maximize" mat-icon-button fixedDialogExpand *ngIf="_windowState !== 'expanded'">
+        <mat-icon>maximize</mat-icon>
+      </button>
+      <button class="create-envelope__minimize" mat-icon-button fixedDialogCollapse
+        *ngIf="_windowState !== 'collapsed'">
+        <mat-icon>minimize</mat-icon>
+      </button>
+      <button class="create-envelope__close" #closeButton mat-icon-button fixedDialogClose>
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  
+  <div class="create-envelope__body" [ngClass]="{expanded: _windowState === 'expanded'}" *ngIf="currentProfile || _templateSource === 'liveview'">
+    <div class="create-envelope__body-wrapper">
+      <div class="create-envelope__recipient">
+        <div class="create-envelope__recipient-icon">
+          <mat-icon matTooltip="Sender" [matTooltipPosition]="'below'">trip_origin</mat-icon>
+        </div>
+        <div class="create-envelope__recipient-dots"></div>
+        <div class="create-envelope__chips">
+          <div class="create-envelope__chip readOnly">
+            <div class="create-envelope__chip-label">
+              {{ sender_name }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="create-envelope__recipient preparer" [ngClass]="{hidden: !hasPreparer, show: hasPreparer}">
+        <div class="create-envelope__recipient-icon">
+          <mat-icon matTooltip="Sender" [matTooltipPosition]="'below'">place</mat-icon>
+        </div>
+        <div class="create-envelope__recipient-dots"></div>
+        <div class="create-envelope__chips">
+          <div class="create-envelope__chip preparer" [ngClass]="{known: roleFormGroup?.controls['preparer']?.status === 'VALID'}" (click)="editRecipient(false, 'preparer', '#b0bec5')">
+            <div class="create-envelope__chip-label">
+              {{preparer_name}}
+            </div>
+            <button class="create-envelope__chip-edit" mat-icon-button
+              (click)="editRecipient(false, 'preparer', '#b0bec5')">
+              <mat-icon class="create-envelope__chip-icon">edit
+              </mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="create-envelope__recipient"
+        *ngFor="let sequenceIndex of inviteRoles; let sequence_index = index; trackBy: sequenceTracking;"
+        [ngClass]="{hidden: sequenceIndex[0].name === 'Preparer'}">
+        <div class="create-envelope__recipient-icon">
+          <mat-icon matTooltip="Sequence {{sequence_index + 1}}" [matTooltipPosition]="'below'">place</mat-icon>
+        </div>
+        <div class="create-envelope__recipient-dots"></div>
+        <div class="create-envelope__chips"
+          *ngFor="let role of sequenceIndex; let role_index = index; trackBy: roleInviteTracking;">
+          <div class="create-envelope__chip"
+            [style.backgroundColor]="roleFormGroup?.controls[role.name].status ==='INVALID' ? role.backgroundColor : '#FFF'"
+            [style.border]="roleFormGroup?.controls[role.name].status === 'VALID' ? '1px solid' + role.backgroundColor : 'none'"
+            [ngClass]="{readOnly: role.readOnly, clickable: !role.readOnly}">
+            <div class="create-envelope__chip-label" [contentEditable]="role.content_editable"
+              (click)="editRecipient(role.readOnly, role.name, role.backgroundColor)">
+              {{chipLabel(role)}}
+            </div>
+            <button class="create-envelope__chip-edit" mat-icon-button *ngIf="!role.readOnly"
+              (click)="editRecipient(role.readOnly, role.name, role.backgroundColor)">
+              <mat-icon class="create-envelope__chip-icon">edit
+              </mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="create-envelope__recipient">
+        <div class="create-envelope__recipient-icon">
+          <mat-icon>done_all</mat-icon>
+        </div>
+        <div class="create-envelope__chips">
+          <div class="create-envelope__complete">
+            <div class="create-envelope__complete-label">
+              Verdoc Complete
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="create-envelope__divider"></div>
+    <div class="create-envelope__footer">
+      <div class="create-envelope__preparer-toggle" (click)="togglePreparer()" [ngClass]="{on: hasPreparer}"
+        matTooltip="{{hasPreparer ? 'Remove preparer' : 'Add preparer'}}">
+        <mat-icon>person_pin_circle</mat-icon>
+      </div>
+      <button class="create-envelope__send" mat-button *ngIf="!firstSignerIsCreator()"
+        [disabled]="roleFormGroup?.status === 'INVALID' || !canSendEnvelope() || inviteInProgress"
+        [VerdocsEventTracker]="{'action': 'verdoc create - create button clicked', 'category': 'verdoc create', label: 'document id: '+ template?.id}"
+        (click)="sendInvite(false)">
+        <span *ngIf="!inviteInProgress"
+          matTooltip="{{!canSendEnvelope() ? 'Document cannot be used to create a Verdoc' : 'Complete all recipients to create an Verdoc.'}}"
+          [matTooltipDisabled]="roleFormGroup?.status === 'VALID'">
+          SEND
+        </span>
+        <mat-progress-spinner class="create-envelope__progress" mode="indeterminate" [diameter]="32"
+          *ngIf="inviteInProgress"></mat-progress-spinner>
+      </button>
+      <button class="create-envelope__send options" mat-button
+        [disabled]="roleFormGroup?.status === 'INVALID' || !canSendEnvelope() || inviteInProgress"
+        *ngIf="firstSignerIsCreator()" [matMenuTriggerFor]="sendMenu"
+        [VerdocsEventTracker]="{'action': 'verdoc create - create button clicked', 'category': 'verdoc create', label: 'document id: '+ template?.id}"        
+        >
+        <div class="label-wrapper" *ngIf="!inviteInProgress"><span>CREATE</span>
+          <mat-icon>arrow_drop_down</mat-icon>
+        </div>
+        <mat-progress-spinner class="create-envelope__progress" mode="indeterminate" [diameter]="32"
+          *ngIf="inviteInProgress"></mat-progress-spinner>
+      </button>
+      <mat-menu #sendMenu="matMenu" yPosition="above">
+        <button mat-menu-item (click)="sendInvite(false)">Create</button>
+        <button mat-menu-item (click)="sendInvite(true)">Create and Open Verdoc</button>
+      </mat-menu>
+    </div>
+
+  </div>
+  <div class="create-envelope__role-overlay" [ngClass]="{show: editRole}"></div>
+  <div class="create-envelope__role-edit" [ngClass]="{show: editRole}" *ngIf="currentProfile || _templateSource === 'liveview'">
+    <div class="create-envelope__role-header" [style.backgroundColor]="roleColor">
+      <div class="create-envelope__role-title" [ngClass]="{preparer: editRoleName === 'preparer'}">{{editRoleName === 'preparer' ? 'Preparer' : editRoleName}}</div>
+      <button class="create-envelope__role-minimize" mat-icon-button (click)="minimizeRecipientDialog(true)">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <form [formGroup]="roleFormGroup" *ngIf="editRoleName">
+      <div class="create-envelope__role-form" [formGroupName]="editRole">
+        <mat-form-field class="create-envelope__role-field">
+          <input class="create-envelope__role-input" #roleFullnameInput matInput placeholder="Full Name" type="text"
+            formControlName="full_name" [matAutocomplete]="autoMe" required>
+          <mat-autocomplete #autoMe="matAutocomplete">
+            <mat-option (click)="autocompleteAsCreator()" *ngIf="!!currentProfile && roleFullnameInput.value === ''">
+              <mat-icon>account_circle</mat-icon><span class="create-envleope__me">Me</span>
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error>Name is required.</mat-error>
+        </mat-form-field>
+        <mat-form-field class="create-envelope__role-field">
+          <input class="create-envelope__role-input" #roleEmailInput matInput placeholder="Email" type="email"
+            formControlName="email" [matAutocomplete]="autoMeEmail" required>
+          <mat-autocomplete #autoMeEmail="matAutocomplete">
+            <mat-option (click)="autocompleteAsCreator()" *ngIf="!!currentProfile && roleEmailInput.value === ''">
+              <mat-icon>account_circle</mat-icon><span class="create-envleope__me">Me</span>
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error>Please enter a valid email.</mat-error>
+        </mat-form-field>
+        <mat-form-field class="create-envelope__role-field">
+          <input class="create-envleope__role-input" #rolePhoneInput matInput placeholder="Phone" type="text"
+            formControlName="phone" (blur)="clearOnBlur(editRoleName)">
+            <mat-error>Please enter a valid phone number. ie. +13477964475</mat-error>
+        </mat-form-field>
+        <mat-form-field class="create-envelope__role-field" *ngIf="hasMessage">
+          <textarea class="create-envelope__role-input" matInput placeholder="Message" type="text"
+            formControlName="message">
+          </textarea>
+        </mat-form-field>
+      </div>
+    </form>
+    <div class="create-envelope__role-footer">
+      <div class="create-envelope__options">
+        <div class="create-envelope__message" (click)="toggleMessage()"
+          [ngClass]="{on: hasMessage, alone: editRoleName === 'preparer'}">
+          <mat-icon matTooltip="{{hasMessage ? 'Remove message' : 'Add message'}}">insert_comment</mat-icon>
+        </div>
+        <div class="create-envelope__delegate" (click)="toggleDelegate()" [ngClass]="{on: hasDelegator}"
+          *ngIf="editRoleName !== 'preparer'">
+          <mat-icon matTooltip="{{hasDelegator ? 'Unassign as delegator' : 'Assign as delegator'}}">
+            swap_horizontal_circle</mat-icon>
+        </div>
+      </div>
+      <button class="create-envelope__role-footer-button" mat-button
+        (click)="verifyAndMinimizeRecipientDialog()">OK</button>
+    </div>
+  </div>
+
+  <div class="create-envelope__body" [ngClass]="{expanded: _windowState === 'expanded'}" *ngIf="!currentProfile && _templateSource !== 'liveview'">
+    <p class="create-envelope__verify-text">
+      Welcome to Verdocs, the document network.
+    </p>
+    <p class="create-envelope__verify-text">
+      To {{action_string}} Verdocs, you must be a verified user.
+    </p>
+    <p class="create-envelope__verify-text">
+      Getting started is easy and free.
+    </p>
+    <div class="create-envelope__verify-action">
+      <div class="create-envelope__verify-action-wrapper">
+        <button class="create-envelope__verify-action-button" mat-button (click)="signUp()">
+          sign up for free
+        </button>
+      </div>
+      <div class="create-envelope__verify-action-wrapper">
+        <button class="create-envelope__verify-action-button" mat-button (click)="signIn()">
+          log in to continue
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+.error-page {
+  &__container {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 80px);
+    background-color: #FAFAFA;
+    overflow: hidden;
+  }
+
+  &__body {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #37474F;
+    font-size: 52px;
+    font-weight: 300;
+    text-align: center;
+    span {
+      font-weight: 700;
+    }
+
+    img {
+      margin-top: -5px;
+      width: 100%;
+    }
+    a {
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      color: #FFF;
+      background-color: #37474F;
+    }
+  }
+}
