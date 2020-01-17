@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnChanges } from '@angular/core';
-import { FieldError } from 'app/core/models/field-error.model';
+import { FieldError } from '../../models/field-error.model';
 
-import { RequiredFieldsService } from 'app/core/services/required-fields.service';
+import { RequiredFieldsService } from '../../services/required-fields.service';
 import { Subscription } from 'rxjs';
 
 @Component({

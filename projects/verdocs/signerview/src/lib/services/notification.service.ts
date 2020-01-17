@@ -1,12 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ReplaySubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { orderBy } from 'lodash';
 
-
-
-import { environment } from '../../../environments/environment';
+import { IViewConfig, viewConfiguration } from '../views.module';
 
 export interface Notification {
   id?: string;
@@ -22,15 +20,19 @@ export interface Notification {
 
 @Injectable()
 export class NotificationService {
-  private serviceAddress = environment.rNotification_backend_url + '/notifications';
   private notifications: Notification[];
   private notificationsSubject = new ReplaySubject<Notification[]>();
   private idToOpen = new ReplaySubject();
-  private user;
+  private serviceAddress:string;
+  private rNotification_backend_url: string;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private injector: Injector
   ) {
+    const viewConfig: IViewConfig = this.injector.get(viewConfiguration);
+    this.rNotification_backend_url = viewConfig.rNotification_backend_url;
+    this.serviceAddress = `${this.rNotification_backend_url}/notifications`;
   }
 
   public init() {

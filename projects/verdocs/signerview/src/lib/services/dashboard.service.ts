@@ -6,8 +6,8 @@ import { VerdocsTokenObjectService } from '@verdocs/tokens';
 import { TemplatesService } from './templates.service';
 import { EnvelopeService } from './envelope.service';
 import { ITimePeriod, SortOptions } from '../models/envelope_search.model';
-import { timePeriod } from 'app/core/functions/filter';
-import { getIncompleteRecipients, getSelfEnvelopeTokenLink } from 'app/modules/dashboard/functions/dashboard';
+import { timePeriod } from '../functions/filter';
+import { getIncompleteRecipients, getSelfEnvelopeTokenLink } from '../functions/dashboard';
 
 @Injectable()
 export class DashboardService {

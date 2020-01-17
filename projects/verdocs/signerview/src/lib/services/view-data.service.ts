@@ -1,16 +1,21 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { environment } from '../../../environments/environment';
+import { IViewConfig, viewConfiguration } from '../views.module';
 
 @Injectable()
 export class LiveViewService {
-  private backendUrl: string = environment.backend;
+  private viewConfig: IViewConfig;
+  private backendUrl: string;
 
 
   constructor(
+    private injector: Injector,
     private http: HttpClient
-  ) { }
+  ) {
+    this.viewConfig = this.injector.get(viewConfiguration);
+    this.backendUrl = this.viewConfig.rForm_backend_url;
+  }
 
   createLiveViewEnvelope(payload, templateToken) {
     const requestUrl = this.backendUrl + `/liveview/${payload.template_id}/token/${encodeURIComponent(templateToken)}`;

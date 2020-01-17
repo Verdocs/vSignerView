@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef, AfterViewInit, OnInit } from '@angula
 import { Router } from '@angular/router';
 import { MatDialogRef } from '@angular/material/dialog';
 
-import { ITemplate } from '../../../core/models/template.model';
+import { ITemplate } from '../../../../models/template.model';
 
 @Component({
   selector: 'preview-link-dialog',

@@ -3,8 +3,8 @@ import { MatButton } from '@angular/material/button';
 import { MatDialogRef } from '@angular/material/dialog';
 
 
-import { RecipientService } from 'app/core/services/recipients.service';
-import { SnackbarService } from 'app/core/services/snackbar.service';
+import { RecipientService } from '../../services/recipients.service';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'prepare-dialog',

@@ -43,8 +43,11 @@ export interface IViewConfig {
   rForm_backend_url: string;
   rForm_frontend_url: string;
   rAccount_frontend_url: string;
+  rAccount_backend_url: string;
   rSecure_frontend_url: string;
+  rSecure_backend_url: string;
   rPayment_backend_url: string;
+  rNotification_backend_url: string;
   stripe_publishable_key: string;
   rForm_cookie_name: string;
   plans: IPlans

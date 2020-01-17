@@ -15,13 +15,13 @@ import { MatTabGroup } from '@angular/material/tabs';
 import { Subscription } from 'rxjs';
 
 
-import * as html2canvas from 'html2canvas';
+import html2canvas from 'html2canvas';
 import { isEmpty } from 'lodash';
 
-import { SignatureService } from 'app/core/services/envelope-signature.service';
-import { RecipientService } from 'app/core/services/recipients.service';
-import { SnackbarService } from 'app/core/services/snackbar.service';
-import { EnvelopeViewService } from 'app/core/services/envelope-view.service';
+import { SignatureService } from '../../services/envelope-signature.service';
+import { RecipientService } from '../../services/recipients.service';
+import { SnackbarService } from '../../services/snackbar.service';
+import { EnvelopeViewService } from '../../services/envelope-view.service';
 import { EventTrackerService } from '@verdocs/event-tracker';
 
 @Component({

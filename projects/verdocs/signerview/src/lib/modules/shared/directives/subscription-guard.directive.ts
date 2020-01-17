@@ -1,8 +1,7 @@
 import { Directive, HostListener, EventEmitter, Output, Input } from '@angular/core';
 
 import { VerdocsStateService } from '@verdocs/tokens';
-import { PlansDialog } from '../dialogs/plan-dialogs/plans-dialog.component';
-import { GuardService } from '../../core/services/guard.service';
+import { GuardService } from '../../../services/guard.service';
 
 @Directive({
   selector: '[subscription-guard]'

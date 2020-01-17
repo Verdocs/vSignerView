@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ReplaySubject } from 'rxjs';
 
-import { environment } from '../../../environments/environment';
+import { IViewConfig, viewConfiguration } from '../views.module';
 import { regParse } from '../functions/utils';
 
 
@@ -10,16 +10,22 @@ import { regParse } from '../functions/utils';
 export class ValidatorService {
   private validators: any[] = [];
   private validatorsObject: any = {};
+  private viewConfig: IViewConfig;
+  private rForm_backend_url: string;
 
   constructor(
+    private injector: Injector,
     private http: HttpClient
-  ) { }
+  ) {
+    this.viewConfig = this.injector.get(viewConfiguration);
+    this.rForm_backend_url = this.viewConfig.rForm_backend_url;
+  }
 
   public getValidatorsArray() {
     if (this.validators && this.validators.length > 0) {
       return this.validators;
     } else {
-        return this.http.get(environment.backend + '/validators').toPromise().then((response: any[]) => {
+        return this.http.get(this.rForm_backend_url + '/validators').toPromise().then((response: any[]) => {
         this.validators = response;
         return this.validators as any[];
       }, (err) => {

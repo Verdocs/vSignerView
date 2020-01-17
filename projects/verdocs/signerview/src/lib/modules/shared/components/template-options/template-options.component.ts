@@ -11,19 +11,19 @@ import { Router } from '@angular/router';
 import { findIndex, orderBy, find } from 'lodash';
 import { VerdocsTokenObjectService } from '@verdocs/tokens';
 
-import { SidenavService } from '../../../core/services/sidenav.service';
-import { HeaderService } from '../../../core/services/header.service';
-import { BuilderDataService } from '../../../core/services/builder-data.service';
-import { EnvelopeService } from '../../../core/services/envelope.service';
+import { SidenavService } from '../../../../services/sidenav.service';
+import { HeaderService } from '../../../../services/header.service';
+import { BuilderDataService } from '../../../../services/builder-data.service';
+import { EnvelopeService } from '../../../../services/envelope.service';
 
 
 import { TemplateDeleteDialogComponent } from '../../dialogs/template-delete-dialog/template-delete.dialog';
-import { TemplatesGuardService } from 'app/core/services/templates.guard';
-import { TemplateActions } from 'app/core/definitions/template.enums';
-import { TemplatesService } from 'app/core/services/templates.service';
+import { TemplatesGuardService } from '../../../../services/templates.guard';
+import { TemplateActions } from '../../../../definitions/template.enums';
+import { TemplatesService } from '../../../../services/templates.service';
 import { CreateEnvelopeService, FixedDialogRef } from '../create-envelope';
-import { TemplateOptionsService } from 'app/shared/components/template-options/template-options.service';
-import { ITemplate } from 'app/core/models/template.model';
+import { TemplateOptionsService } from '../template-options/template-options.service';
+import { ITemplate } from '../../../../models/template.model';
 
 
 @Component({

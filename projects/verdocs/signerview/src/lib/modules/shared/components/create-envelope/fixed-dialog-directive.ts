@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { CreateEnvelopeService } from './create-envelope';
 import { FixedDialogRef } from './fixed-dialog-ref';
-import { Direct } from 'protractor/built/driverProviders';
 
 @Directive({
   selector: `button[fixed-dialog-close], button[fixedDialogClose]`,

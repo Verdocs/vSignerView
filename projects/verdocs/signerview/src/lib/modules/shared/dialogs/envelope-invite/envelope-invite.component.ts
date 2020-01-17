@@ -5,10 +5,10 @@ import { FormBuilder, FormArray, FormGroup, Validators, FormControl } from '@ang
 import { cloneDeep, find, remove, findIndex } from 'lodash';
 import { VerdocsTokenObjectService } from '@verdocs/tokens';
 
-import { EnvelopeService } from '../../../core/services/envelope.service';
-import { LiveViewService } from '../../../core/services/view-data.service';
-import { SnackbarService } from '../../../core/services/snackbar.service';
-import { EmailValidator } from '../../../core/validators/email.validator';
+import { EnvelopeService } from '../../../../services/envelope.service';
+import { LiveViewService } from '../../../../services/view-data.service';
+import { SnackbarService } from '../../../../services/snackbar.service';
+import { EmailValidator } from '../../../../validators/email.validator';
 
 @Component({
   selector: 'template-invite',

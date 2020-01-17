@@ -19,27 +19,24 @@ import { isPlatformBrowser } from '@angular/common';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatDialog } from '@angular/material/dialog';
+import { EventTrackerService } from '@verdocs/event-tracker';
 import { Subscription } from 'rxjs';
-import { isArray } from 'util';
+import { findIndex, find, filter } from 'lodash';
 
-import { findIndex, find, filter, clone } from 'lodash';
-import { environment } from '../../../../environments/environment';
-
-import { EnvelopeService } from 'app/core/services/envelope.service';
-import { EnvelopeViewService } from 'app/core/services/envelope-view.service';
-import { SignatureService } from 'app/core/services/envelope-signature.service';
-import { AccountService } from 'app/core/services/account.service';
-import { Broadcast } from 'app/core/services/broadcast';
+import { EnvelopeService } from '../services/envelope.service';
+import { EnvelopeViewService } from '../services/envelope-view.service';
+import { SignatureService } from '../services/envelope-signature.service';
+import { AccountService } from '../services/account.service';
+import { Broadcast } from '../services/broadcast';
 import { VerdocsAuthService, VerdocsTokenObjectService } from '@verdocs/tokens';
 
 import { PrepareInviteDialog } from '../dialogs/prepare/prepare-view.dialog';
 import { SwitchProfileDialogComponent } from '../dialogs/switchProfile/envelope-switch-profile.dialog';
-import { IRecipient } from 'app/core/models/recipient.model';
-import { RecipientService } from 'app/core/services/recipients.service';
-import { Envelope } from 'app/core/models/envelope.model';
-import { SnackbarService } from 'app/core/services/snackbar.service';
-import { EventTrackerService } from '@verdocs/event-tracker';
-import { PageService } from 'app/core/services/page.service';
+import { IRecipient } from '../models/recipient.model';
+import { RecipientService } from '../services/recipients.service';
+import { Envelope } from '../models/envelope.model';
+import { SnackbarService } from '../services/snackbar.service';
+import { PageService } from '../services/page.service';
 
 @Component({
   selector: 'app-envelope-view',

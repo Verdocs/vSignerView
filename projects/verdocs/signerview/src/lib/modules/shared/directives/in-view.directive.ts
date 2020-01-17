@@ -1,5 +1,5 @@
 import { Directive, Output, Input, OnChanges, EventEmitter, ElementRef } from '@angular/core';
-import { isInView } from 'app/core/functions/builder-page';
+import { isInView } from '../../../functions/builder-page';
 
 @Directive({
   selector: '[inView]'

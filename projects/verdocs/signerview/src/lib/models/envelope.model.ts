@@ -1,8 +1,8 @@
-import { IRecipient } from 'app/core/models/recipient.model'; 
-import { IEnvelopeHistory } from 'app/core/models/envelope_histores.model';
-import { IEnvelopeDocument } from 'app/core/models/envelope_document.model';
-import { IEnvelopeField } from 'app/core/models/envelope_fields.model';
-import { IReminder } from 'app/core/models/reminder.model';
+import { IRecipient } from './recipient.model'; 
+import { IEnvelopeHistory } from './envelope_histores.model';
+import { IEnvelopeDocument } from './envelope_document.model';
+import { IEnvelopeField } from './envelope_fields.model';
+import { IReminder } from './reminder.model';
 
 export interface Envelope {
   id?: string;

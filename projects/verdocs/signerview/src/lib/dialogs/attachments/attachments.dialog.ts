@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { MatDialogRef } from '@angular/material/dialog';
 
-import { EnvelopeService } from 'app/core/services/envelope.service';
-import { SnackbarService } from 'app/core/services/snackbar.service';
+import { EnvelopeService } from '../../services/envelope.service';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-attachments',

@@ -1,7 +1,7 @@
 import { findIndex } from 'lodash';
-import { getRGBA, nameToRGBA } from 'app/core/functions/rgb';
-import { getLetterSpacing } from 'app/core/functions/viewer-fields';
-import { getUIFieldStyling } from 'app/core/functions/conversion';
+import { getRGBA, nameToRGBA } from './rgb';
+import { getLetterSpacing } from './viewer-fields';
+import { getUIFieldStyling } from './conversion';
 
 export function setRatio(pages, pdfPages) {
   for (let i = 0; i < pages.length; i++) {

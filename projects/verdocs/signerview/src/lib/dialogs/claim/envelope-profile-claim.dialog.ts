@@ -3,8 +3,8 @@ import { find } from 'lodash';
 import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit } from '@angular/core';
 
-import { AccountService } from 'app/core/services/account.service';
-import { RecipientService } from 'app/core/services/recipients.service';
+import { AccountService } from '../../services/account.service';
+import { RecipientService } from '../../services/recipients.service';
 import { VerdocsStateService } from '@verdocs/tokens';
 
 @Component({

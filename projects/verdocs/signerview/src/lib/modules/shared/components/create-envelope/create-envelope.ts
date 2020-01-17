@@ -8,9 +8,8 @@ import {
   SkipSelf,
   TemplateRef
 } from '@angular/core';
-import { ComponentPortal, ComponentType, PortalInjector } from '@angular/cdk/portal';
+import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
 import { Subject, ReplaySubject } from 'rxjs';
-import { startWith } from 'rxjs/operators';
 import { Overlay, OverlayConfig, OverlayContainer, OverlayRef } from '../overlay';
 import { FixedDialogConfig } from './fixed-dialog-config';
 import { CreateEnvelopeContainer } from './create-envelope-container';

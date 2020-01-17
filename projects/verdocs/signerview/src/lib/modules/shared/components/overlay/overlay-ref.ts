@@ -1,5 +1,5 @@
-import { NgZone, Inject } from '@angular/core';
-import { Location, DOCUMENT } from '@angular/common';
+import { NgZone } from '@angular/core';
+import { Location } from '@angular/common';
 import { Portal, PortalOutlet } from '@angular/cdk/portal';
 import { coerceCssPixelValue, coerceArray } from '@angular/cdk/coercion';
 import { Direction, Directionality } from '@angular/cdk/bidi';

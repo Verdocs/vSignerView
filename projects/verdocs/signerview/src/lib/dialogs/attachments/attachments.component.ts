@@ -1,8 +1,8 @@
 import { Component, OnDestroy, Input, OnChanges, Compiler } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { EnvelopeViewService } from '../../../../core/services/envelope-view.service';
-import { EnvelopeService } from '../../../../core/services/envelope.service';
+import { EnvelopeViewService } from '../../services/envelope-view.service';
+import { EnvelopeService } from '../../services/envelope.service';
 import { saveAs } from 'file-saver';
 
 @Component({

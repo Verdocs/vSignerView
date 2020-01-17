@@ -21,13 +21,13 @@ import * as moment from 'moment';
 
 import { find } from 'lodash';
 
-import { EnvelopeService } from 'app/core/services/envelope.service';
-import { EnvelopeViewService } from 'app/core/services/envelope-view.service';
-import { SignatureService } from 'app/core/services/envelope-signature.service';
-import { ValidatorService } from 'app/core/services/validator.service';
-import { RequiredFieldsService } from 'app/core/services/required-fields.service';
-import { EnvelopeFieldsService } from 'app/core/services/envelope-fields.service';
-import { Broadcast } from 'app/core/services/broadcast';
+import { EnvelopeService } from '../../../../services/envelope.service';
+import { EnvelopeViewService } from '../../../../services/envelope-view.service';
+import { SignatureService } from '../../../../services/envelope-signature.service';
+import { ValidatorService } from '../../../../services/validator.service';
+import { RequiredFieldsService } from '../../../../services/required-fields.service';
+import { EnvelopeFieldsService } from '../../../../services/envelope-fields.service';
+import { Broadcast } from '../../../../services/broadcast';
 
 @Component({
   selector: 'envelope-fields-lite',
@@ -45,7 +45,7 @@ export class EnvelopeFieldsLite implements AfterViewInit, OnInit, OnChanges, OnD
   @Input()
   public id: string; // rename id to envelopeId
   @Input()
-  recipients;
+  recipients: any[];
   @Input()
   selectedRoleName: string;
 

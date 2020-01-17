@@ -1,4 +1,4 @@
-import { ITimePeriod } from 'app/core/models/envelope_search.model';
+import { ITimePeriod } from '../models/envelope_search.model';
 
 export function timePeriod(type): ITimePeriod {
   let endDate = new Date().getTime();

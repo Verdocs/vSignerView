@@ -1,12 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
 
-import { EnvelopeService } from 'app/core/services/envelope.service';
-import { SignatureService } from 'app/core/services/envelope-signature.service';
+import { EnvelopeService } from '../../services/envelope.service';
+import { SignatureService } from '../../services/envelope-signature.service';
 
-import { EnvelopeDelegateComponent } from '../delegate/envelope-delegate.component';
 import { EventTrackerService } from '@verdocs/event-tracker';
 
 @Component({

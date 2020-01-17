@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CustomMaterialModule } from '../../custom-material.module';
+import { CustomMaterialModule } from '../../../custom-material.module';
 
 import { SubscriptionGuardDirective } from './subscription-guard.directive';
 import { HideMobile } from './hide-mobile.directive';

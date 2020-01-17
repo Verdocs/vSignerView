@@ -1,6 +1,6 @@
 import { MatDialogRef } from '@angular/material/dialog';
 import { Component } from '@angular/core';
-import { AccountService } from '../../../../core/services/account.service';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'app-envelope-switch-profile-dialog',

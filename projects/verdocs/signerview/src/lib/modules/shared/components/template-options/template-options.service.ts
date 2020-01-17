@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { BuilderDataService } from '../../../core/services/builder-data.service';
-import { ITemplate } from '../../../core/models/template.model';
-import { LiveViewDialog } from '../../dialogs/live-view-dialog/live-view.dialog';
+import { BuilderDataService } from '../../../../services/builder-data.service';
+import { ITemplate } from '../../../../models/template.model';
 import { PreviewLinkDialog } from '../../dialogs/preview-link/preview-link.dialog';
 
 @Injectable()

@@ -12,7 +12,7 @@ import {
   ChangeDetectorRef,
   PLATFORM_ID
 } from '@angular/core';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { HttpEventType, HttpResponse } from '@angular/common/http';

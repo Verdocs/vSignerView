@@ -6,21 +6,21 @@ import { filter, find, findIndex } from 'lodash';
 import { saveAs } from 'file-saver';
 import * as moment from 'moment';
 
-import { EnvelopeViewService } from '../../../core/services/envelope-view.service';
-import { EnvelopeService } from '../../../core/services/envelope.service';
-import { SignatureService } from '../../../core/services/envelope-signature.service';
-import { RecipientService } from '../../../core/services/recipients.service';
-import { ValidatorService } from '../../../core/services/validator.service';
-import { SnackbarService } from '../../../core/services/snackbar.service';
-import { RequiredFieldsService } from '../../../core/services/required-fields.service';
-import { getRGBA } from '../../../core/functions/rgb';
-import { printPdfUrl } from 'app/core/functions/utils';
+import { EnvelopeViewService } from '../services/envelope-view.service';
+import { EnvelopeService } from '../services/envelope.service';
+import { SignatureService } from '../services/envelope-signature.service';
+import { RecipientService } from '../services/recipients.service';
+import { ValidatorService } from '../services/validator.service';
+import { SnackbarService } from '../services/snackbar.service';
+import { RequiredFieldsService } from '../services/required-fields.service';
+import { getRGBA } from '../functions/rgb';
+import { printPdfUrl } from '../functions/utils';
 
 import { EnvelopeDelegateComponent } from '../dialogs/delegate/envelope-delegate.component';
 import { DeclineEnvelopeDialogComponent } from '../dialogs/decline/envelope-decline.dialog';
-import { IRecipient } from '../../../core/models/recipient.model';
+import { IRecipient } from '../models/recipient.model';
 import { ClaimDialogComponent } from '../dialogs/claim/envelope-profile-claim.dialog';
-import { AccountService } from 'app/core/services/account.service';
+import { AccountService } from '../services/account.service';
 import { VerdocsAuthService, VerdocsStateService, VerdocsTokenObjectService } from '@verdocs/tokens';
 import { EventTrackerService } from '@verdocs/event-tracker';
 

@@ -5,11 +5,9 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { ReplaySubject ,  Observable } from 'rxjs';
 import { VerdocsStateService } from '@verdocs/tokens';
 import { ProfileModel, ProfileCollection } from '@verdocs/profiles';
-
 import { findIndex } from 'lodash';
 
-import { environment } from '../../../environments/environment';
-
+import { IViewConfig, viewConfiguration } from '../views.module';
 import { HeaderService } from './header.service';
 
 @Injectable()
@@ -31,23 +29,12 @@ export class AccountService {
     email: this.userEmail,
     phone: this.userPhone
   };
-  private apps = [{
-    name: 'My Account',
-    src: 'assets/rAccount.svg',
-    link: environment.rAccount_frontend_url
-  }, {
-    name: 'Envelopes',
-    src: 'assets/Envelopes_64.svg',
-    link: environment.frontend_url
-  }, {
-    name: 'Admin',
-    src: 'assets/Admin.svg',
-    link: environment.rAccount_frontend_url + '/admin'
-  }];
 
   private profileData: any;
-  private backend_url = environment.rAccount_backend_url;
-  private currentOrganizationId: string = null;
+  private rAccount_backend_url: string;
+  private rSecure_backend_url: string;
+  private rForm_backend_url: string;
+  private viewConfig: IViewConfig;
   
   constructor(
     private http: HttpClient,
@@ -56,6 +43,10 @@ export class AccountService {
     private injector: Injector,
     private snackbar: MatSnackBar
   ) {
+    this.viewConfig = this.injector.get(viewConfiguration);
+    this.rAccount_backend_url = this.viewConfig.rAccount_backend_url;
+    this.rSecure_backend_url = this.viewConfig.rSecure_backend_url;
+    this.rForm_backend_url = this.viewConfig.rForm_backend_url;
   }
 
   getAccountData() {
@@ -68,7 +59,7 @@ export class AccountService {
   }
 
   getProfiles() {
-    return this.http.get(this.backend_url + '/profiles').toPromise().then((res: any[]) => {
+    return this.http.get(this.rAccount_backend_url + '/profiles').toPromise().then((res: any[]) => {
       const personal = res.splice(findIndex(res, p => p.organization.name === 'realster'), 1);
       this.personalAccountSubject.next(personal[0]);
       this.profileData = res.sort((a, b) => {
@@ -106,7 +97,6 @@ export class AccountService {
       this.userProfileSubject.next(this.profileData);
       const currentProfile = this.profileData[currentIndex];
       this.currentProfileSubject.next(currentProfile);
-      this.currentOrganizationId = currentProfile.organization_id;
       this.userDataSubject.next(this.userData);
       return this.userData;
     });
@@ -121,10 +111,6 @@ export class AccountService {
     return profileCollection;
   }
 
-  getApps() {
-    return this.apps;
-  }
-
   removeFromProfileData(id) {
     const removeIndex = findIndex(this.profileData, { organization_id: name });
     if (removeIndex >= 0) {
@@ -134,12 +120,12 @@ export class AccountService {
   }
 
   getAllProfiles() {
-    return this.http.get<any[]>(this.backend_url + '/profiles/').toPromise();
+    return this.http.get<any[]>(this.rAccount_backend_url + '/profiles/').toPromise();
   }
 
   switchProfile(profile_id) {
     this.profileLoadingSubject.next(true);
-    return this.http.post(this.backend_url + '/profiles/' + profile_id + '/switch', null).toPromise().then(async (res: any) => {
+    return this.http.post(this.rAccount_backend_url + '/profiles/' + profile_id + '/switch', null).toPromise().then(async (res: any) => {
       this.vTokenStateService.setTokens(res.tokens);
       this.profileLoadingSubject.next(false);
       return Promise.resolve(res);
@@ -148,7 +134,7 @@ export class AccountService {
 
   async updateTokens(sendMessage?: boolean) {
     return new Promise((resolve, reject) => {
-      this.vTokenStateService.updateTokens(environment.rSecure_backend_url).subscribe(tokens => {
+      this.vTokenStateService.updateTokens(this.rSecure_backend_url).subscribe(tokens => {
         if (tokens && tokens.length > 0) {
           if (sendMessage) {
             this.snackbar.dismiss();
@@ -162,7 +148,7 @@ export class AccountService {
   }
 
   resendEmailVerification() {
-    this.http.post(environment.rSecure_backend_url + '/user/email_verification', null).toPromise().then(() => {
+    this.http.post(this.rSecure_backend_url + '/user/email_verification', null).toPromise().then(() => {
       this.createSnackbar('Verification email sent');
     });
   }
@@ -195,17 +181,17 @@ export class AccountService {
     if (userData.phone) {
       this.userData.phone = userData.phone || '';
     }
-    this.http.put(this.backend_url + '/profiles/' + userData.id, userData).toPromise().then(() => {
+    this.http.put(this.rAccount_backend_url + '/profiles/' + userData.id, userData).toPromise().then(() => {
       this.userDataSubject.next(this.userData);
     });
   }
 
   deleteAccount() {
-    return this.http.delete(this.backend_url).toPromise();
+    return this.http.delete(this.rAccount_backend_url).toPromise();
   }
 
   changePassword(email, oldPassword, newPassword) {
-    return this.http.put(this.backend_url + 'updatepassword', {
+    return this.http.put(this.rAccount_backend_url + 'updatepassword', {
       email,
       oldPassword,
       newPassword
@@ -213,7 +199,7 @@ export class AccountService {
   }
 
   getNameValidity(name) {
-    return this.http.get(this.backend_url + '/organizations/is_valid?name=' + name, this.getOptions())
+    return this.http.get(this.rAccount_backend_url + '/organizations/is_valid?name=' + name, this.getOptions())
       .toPromise()
       .then(res => {
         return Promise.resolve(res);
@@ -221,7 +207,7 @@ export class AccountService {
   }
 
   createOrganization(body) {
-    return this.http.post(this.backend_url + '/organizations', body, this.getOptions())
+    return this.http.post(this.rAccount_backend_url + '/organizations', body, this.getOptions())
       .toPromise()
       .then(res => {
         return Promise.resolve(res);
@@ -244,7 +230,7 @@ export class AccountService {
   }
 
   public fetchToken(id: string, roleName: string, invite: string, redirectReq?: string) {
-    const req = environment.backend + `/envelopes/${id}/recipients/${roleName}/invitation/${invite}`;
+    const req = this.rForm_backend_url + `/envelopes/${id}/recipients/${roleName}/invitation/${invite}`;
     return this.http.get<any>(req, {observe: 'response'}).subscribe(res => {
       this.vTokenStateService.storeOtherCookie('signer_token', res['headers'].get('signer_token'));
       if (redirectReq) {

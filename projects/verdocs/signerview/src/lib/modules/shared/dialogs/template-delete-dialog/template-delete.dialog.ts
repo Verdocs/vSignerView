@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TemplatesService } from '../../../core/services/templates.service';
+import { TemplatesService } from '../../../../services/templates.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 

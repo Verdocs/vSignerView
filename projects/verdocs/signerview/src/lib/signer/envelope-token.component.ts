@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { EnvelopeService } from '../../../core/services/envelope.service';
-import { AccountService } from '../../../core/services/account.service';
+import { EnvelopeService } from '../services/envelope.service';
+import { AccountService } from '../services/account.service';
 
 @Component({
   selector: 'app-envelope-token',

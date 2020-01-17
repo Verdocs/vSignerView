@@ -11,7 +11,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMenuModule } from '@angular/material/menu';
 import { OverlayModule } from '../overlay';
-import { DirectivesModule } from 'app/shared/directives/directives.modules';
+import { DirectivesModule } from '../../directives/directives.modules';
 import { CreateEnvelopeService } from './create-envelope';
 import { CreateEnvelopeContainer } from './create-envelope-container';
 import { FixedDialogClose, FixedDialogExpand, FixedDialogCollapse } from './fixed-dialog-directive';

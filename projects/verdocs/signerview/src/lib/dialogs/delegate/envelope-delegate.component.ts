@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { VerdocsStateService } from '@verdocs/tokens';
 
-import { EnvelopeService } from 'app/core/services/envelope.service';
-import { SnackbarService } from 'app/core/services/snackbar.service';
-import { DelegatedStatusDialogComponent } from 'app/shared/dialogs/delegated-dialog/status.dialog';
+import { EnvelopeService } from '../../services/envelope.service';
+import { SnackbarService } from '../../services/snackbar.service';
+import { DelegatedStatusDialogComponent } from '../../modules/shared/dialogs/delegated-dialog/status.dialog';
 
 @Component({
   selector: 'app-envelope-delegate',

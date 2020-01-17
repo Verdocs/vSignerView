@@ -63,7 +63,6 @@ export class RealsterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.prepareAppList();
     this.checkEmailVerification();
     this.hasProfile = !!this.vTokenObjectService.getProfile();
     this.accountService.userProfileSubject.subscribe(profiles => {
@@ -90,16 +89,6 @@ export class RealsterComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.notificationsSubscription.unsubscribe();
     this.profileLoadingSubscription.unsubscribe();
-  }
-
-  private prepareAppList(): string {
-    this.apps = this.accountService.getApps();
-    if (!this.hasAccessToAdmin()) {
-      remove(this.apps, (app) => {
-        return app.name === 'Admin';
-      });
-    }
-    return null;
   }
 
   private checkEmailVerification(): void {
