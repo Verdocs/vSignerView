@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { HeaderService } from '../../core/services/header.service';
+import { HeaderService } from './services/header.service';
 
 @Component({
   selector: 'app-view-component',
